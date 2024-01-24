@@ -155,6 +155,12 @@ public class BoardPanel extends JPanel {
         this.eventListener = eventListener;
     }
 
+    public void changeBackGround(int row, char col, Color backGroundColor){
+        HexagonCell targetCell = findCell(row, col);
+        if (targetCell != null){
+            targetCell.setBackGroundColor(backGroundColor);
+        }
+    }
     public void setCellProperties(int row, char col, String text, Color backGroundColor, Color textColor) {
         HexagonCell targetCell = findCell(row, col);
         if (targetCell != null) {

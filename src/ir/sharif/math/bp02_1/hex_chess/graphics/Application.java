@@ -32,7 +32,9 @@ public class Application {
             mainFrame.setEventListener(eventListener);
         }
     }
-
+    public void changeBackGround(int row, char col, Color backGroundColor){
+        boardPanel.changeBackGround(row, col, backGroundColor);
+    }
     public void setCellProperties(int row, char col, String text, Color backGroundColor, Color textColor) {
         boardPanel.setCellProperties(row, col, text, backGroundColor, textColor);
     }

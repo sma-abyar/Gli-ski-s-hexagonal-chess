@@ -5,11 +5,14 @@ import java.io.File;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.graphics.listeners.EventListener;
+import ir.sharif.math.bp02_1.hex_chess.graphics.models.HexagonCell;
+import ir.sharif.math.bp02_1.hex_chess.graphics.panel.BoardPanel;
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
 
 public class changeBackColor implements EventListener {
     Application app;
     PiecePack data;
+    BoardPanel panel;
     int lrow;
     char lcol;
     Color dtcolor;
@@ -21,7 +24,14 @@ public class changeBackColor implements EventListener {
     }
 
     public void onClick(int row, char col) {
-
+        app.changeBackGround(row, col, Color.BLUE);
+        if ((row != lrow) || (col != lcol)){
+            app.changeBackGround(lrow, lcol, null);
+        }
+        lrow = row;
+        lcol = col;
+//        HexagonCell cell = new HexagonCell();
+//        cell.setBackGroundColor(Color.BLUE);
         /*
          * for (int i = 0; i < data.row.length; i++){
          * try {
