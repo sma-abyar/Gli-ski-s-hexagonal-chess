@@ -8,6 +8,7 @@ import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 import train2.Address;
 import train2.Cell;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,4 @@ public class Main {
         application.registerEventListener(new changeBackColor(application, data));
         data.setPieces(application);
     }
-    Map<String, Integer> bBoard = new HashMap<>();
-
 }

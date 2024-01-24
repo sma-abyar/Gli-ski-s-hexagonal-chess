@@ -3,11 +3,15 @@ package train2;
 import jdk.swing.interop.DropTargetContextWrapper;
 
 public class Address {
-    Address(int row,char column) {
+    public Address(int row,char column) {
         this.row = row;
         this.column = column;
 
     }
-    int row;
-    char column;
+    public int row;
+    public char column;
+
+    public String toString(){
+        return row + "," + column;
+    }
 }
