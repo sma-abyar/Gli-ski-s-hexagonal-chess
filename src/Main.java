@@ -13,8 +13,6 @@ public class Main {
         PiecePack data = new PiecePack();
         Application application = new Application();
         application.registerEventListener(new SystemOutEventListener());
-//        application.setCellProperties(6, 'l', PieceName.WHITE_BISHOP, null, Color.WHITE);
-//        application.setCellProperties(data.wrow[5], 'g', data.wpiece[5], null, Color.WHITE);
         application.setRemovedPieces(new StringColor[]{
                 new StringColor(PieceName.BLACK_BISHOP, StringColor.BLACK),
                 new StringColor(PieceName.WHITE_BISHOP, StringColor.WHITE)
