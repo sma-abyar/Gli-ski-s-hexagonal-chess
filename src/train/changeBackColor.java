@@ -20,6 +20,7 @@ public class changeBackColor implements EventListener {
 
     public void onClick(int row, char col) {
         app.changeBackGround(row, col, Color.BLUE);
+        System.out.println(row+""+col);
         if ((row != lrow) || (col != lcol)){
             app.changeBackGround(lrow, lcol, null);
         }
