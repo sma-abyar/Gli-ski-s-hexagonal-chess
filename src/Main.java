@@ -27,6 +27,6 @@ public class Main {
         application.registerEventListener(new changeBackColor(application, data));
         data.setPieces(application);
     }
-    Map<String, Integer> bboard = new HashMap<>();
+    Map<String, Integer> bBoard = new HashMap<>();
 
 }
