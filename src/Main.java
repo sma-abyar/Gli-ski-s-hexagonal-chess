@@ -6,8 +6,6 @@ import train.changeBackColor;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 
-import java.awt.*;
-
 public class Main {
     public static void main(String[] args) {
         PiecePack data = new PiecePack();
