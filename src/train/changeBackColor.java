@@ -14,6 +14,7 @@ public class changeBackColor implements EventListener {
     PiecePack data;
     int lrow;
     char lcol;
+    Color lBColor;
 
     public changeBackColor(Application app, PiecePack data) {
         this.app = app;
@@ -23,9 +24,14 @@ public class changeBackColor implements EventListener {
     public void onClick(int row, char col) {
 
         try {
+            if (lBColor==Color.GREEN){
+                app.setCellProperties(row, col, cell.getPiece(), Color.BLUE, cell.getTcolor());
+                lBColor = Color.BLUE;
+            }
             cell = data.getbBoard().get(""+row+col);
             if (cell!=null){
                 app.changeBackGround(row, col, Color.GREEN);
+                lBColor = Color.GREEN;
             }else{
                 app.changeBackGround(row, col, Color.blue);
             }
