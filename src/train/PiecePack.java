@@ -20,7 +20,7 @@ public class PiecePack {
 
     public Color[] bgColor = new Color[9];
     public Color[] tColor = new Color[9];
-    int num = 18;
+    public int num = 18;
 
     public PiecePack() {
         bgColor[5] = null;
@@ -33,8 +33,6 @@ public class PiecePack {
             bBoard.put(""+wrow[i]+wcol[i],new Cell(null, wpiece[i], Color.WHITE));
             app.setCellProperties(brow[i], bcol[i], bpiece[i], null, Color.BLACK);
             bBoard.put(""+brow[i]+bcol[i],new Cell(null, bpiece[i], Color.BLACK));
-
-
         }
     }
 
