@@ -25,16 +25,16 @@ public class GameManager {
     char lcol;
     Color lBColor;
 
-    public void Move(Cell lcell, int lrow, char lcol, Cell ncell, int nrow, char ncol){
+    private void Move(Cell lcell, int lrow, char lcol, Cell ncell, int nrow, char ncol){
         app.setCellProperties(nrow, ncol, lcell.getPiece(), Color.BLUE, lcell.getTcolor());
-        bBoard.put(""+nrow+ncol,new Cell(null, lcell.getPiece(), lcell.getTcolor()));
+        bBoard.put(""+nrow+ncol,new Cell(null, lcell.getPiece(), lcell.getTcolor(), nrow, ncol));
         bBoard.remove(""+lrow+lcol);
         app.setCellProperties(lrow, lcol, null, null, null);
         lBColor = Color.BLUE;
     }
     public void turn(){}
-    public void removePiece(){}
-    public void changeBackgroundColor(Cell cell, int row, char col){
+    private void removePiece(){}
+    private void changeBackgroundColor(Cell cell, int row, char col){
         if (lBColor==Color.GREEN){
             Move(lcell, lrow, lcol, cell, row, col);
         }
@@ -57,15 +57,22 @@ public class GameManager {
         try{
             sCell = bBoard.get(""+row+column);
             changeBackgroundColor(sCell, row, column);
+            whatSelected(sCell);
         }catch (Exception e){
         }
     }
     public void arrangeBoard(){
         for(int i =0; i<pack.num; i++){
             app.setCellProperties(pack.wrow[i], pack.wcol[i], pack.wpiece[i], null, Color.WHITE);
-            bBoard.put(""+pack.wrow[i]+pack.wcol[i],new Cell(null, pack.wpiece[i], Color.WHITE));
+            bBoard.put(""+pack.wrow[i]+pack.wcol[i],new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
             app.setCellProperties(pack.brow[i], pack.bcol[i], pack.bpiece[i], null, Color.BLACK);
-            bBoard.put(""+pack.brow[i]+pack.bcol[i],new Cell(null, pack.bpiece[i], Color.BLACK));
+            bBoard.put(""+pack.brow[i]+pack.bcol[i],new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
+        }
+    }
+    private void whatSelected(Cell cell){
+        String piece = cell.getPiece();
+        if (piece.equals(pack.pieces[0])||piece.equals(pack.pieces[6])){
+            System.out.println(true);
         }
     }
 }

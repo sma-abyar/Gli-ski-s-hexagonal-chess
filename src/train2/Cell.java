@@ -1,18 +1,21 @@
 package train2;
 
 import java.awt.*;
-import java.util.SplittableRandom;
 
 public class Cell {
-    public Cell(Color bcolor, String piece, Color tcolor) {
+    public Cell(Color bcolor, String piece, Color tcolor, int row, char column) {
         this.bcolor = bcolor;
         this.piece = piece;
         this.tcolor = tcolor;
+        this.row = row;
+        this.column = column;
 
     }
-    protected Color bcolor;
-    protected String piece;
-    protected Color tcolor;
+    private Color bcolor;
+    private String piece;
+    private Color tcolor;
+    private int row;
+    private char column;
 
     public Color getBcolor() {
         return bcolor;
@@ -24,5 +27,13 @@ public class Cell {
 
     public Color getTcolor() {
         return tcolor;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public char getColumn() {
+        return column;
     }
 }

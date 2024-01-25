@@ -9,6 +9,7 @@ public class PiecePack {
     public int[] brow = {7,8,9,10,11,10,9,8,7,10,9,7,7,7,7,7,7,7};
     public char[] bcol = {'b','c','d','e','f','g','h','i','k','f','f','c','d','e','f','g','h','i'};
     public String[] bpiece = {PieceName.BLACK_PAWN,PieceName.BLACK_ROCK,PieceName.BLACK_KNIGHT,PieceName.BLACK_QUEEN,PieceName.BLACK_BISHOP,PieceName.BLACK_KING,PieceName.BLACK_KNIGHT,PieceName.BLACK_ROCK,PieceName.BLACK_PAWN,PieceName.BLACK_BISHOP,PieceName.BLACK_BISHOP,PieceName.BLACK_PAWN,PieceName.BLACK_PAWN,PieceName.BLACK_PAWN,PieceName.BLACK_PAWN,PieceName.BLACK_PAWN,PieceName.BLACK_PAWN,PieceName.BLACK_PAWN};
+    public String[] pieces = {PieceName.BLACK_PAWN,PieceName.BLACK_ROCK,PieceName.BLACK_KNIGHT,PieceName.BLACK_QUEEN,PieceName.BLACK_BISHOP,PieceName.BLACK_KING,PieceName.BLACK_PAWN,PieceName.BLACK_ROCK,PieceName.BLACK_KNIGHT,PieceName.BLACK_QUEEN,PieceName.BLACK_BISHOP,PieceName.BLACK_KING};
     public int num = 18;
 
 }
