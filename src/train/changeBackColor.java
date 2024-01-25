@@ -10,6 +10,7 @@ import train2.Cell;
 
 public class changeBackColor implements EventListener {
      Cell cell;
+     Cell lcell;
     Application app;
     PiecePack data;
     int lrow;
@@ -24,11 +25,14 @@ public class changeBackColor implements EventListener {
     public void onClick(int row, char col) {
 
         try {
+            cell = data.getbBoard().get(""+row+col);
             if (lBColor==Color.GREEN){
-                app.setCellProperties(row, col, cell.getPiece(), Color.BLUE, cell.getTcolor());
+                app.setCellProperties(row, col, lcell.getPiece(), Color.BLUE, lcell.getTcolor());
+                data.getbBoard().put(""+row+col,new Cell(null, lcell.getPiece(), lcell.getTcolor()));
+                data.getbBoard().remove(""+lrow+lcol);
+                app.setCellProperties(lrow, lcol, null, null, null);
                 lBColor = Color.BLUE;
             }
-            cell = data.getbBoard().get(""+row+col);
             if (cell!=null){
                 app.changeBackGround(row, col, Color.GREEN);
                 lBColor = Color.GREEN;
@@ -43,6 +47,7 @@ public class changeBackColor implements EventListener {
         }
         lrow = row;
         lcol = col;
+        lcell = cell;
 
     }
 
