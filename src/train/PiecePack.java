@@ -37,4 +37,8 @@ public class PiecePack {
 
         }
     }
+
+    public Map<String, Cell> getbBoard() {
+        return bBoard;
+    }
 }

@@ -5,14 +5,6 @@ import train.PiecePack;
 import train.changeBackColor;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
-import train2.Address;
-import train2.Cell;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {

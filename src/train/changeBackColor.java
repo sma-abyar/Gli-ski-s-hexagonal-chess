@@ -5,9 +5,11 @@ import java.io.File;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.graphics.listeners.EventListener;
+import train2.Cell;
 
 
 public class changeBackColor implements EventListener {
+     Cell cell;
     Application app;
     PiecePack data;
     int lrow;
@@ -19,8 +21,17 @@ public class changeBackColor implements EventListener {
     }
 
     public void onClick(int row, char col) {
-        app.changeBackGround(row, col, Color.BLUE);
-        System.out.println(row+""+col);
+
+        try {
+            cell = data.getbBoard().get(""+row+col);
+            if (cell!=null){
+                app.changeBackGround(row, col, Color.GREEN);
+            }else{
+                app.changeBackGround(row, col, Color.blue);
+            }
+            System.out.println(row+""+col+cell.getPiece());
+        }catch (Exception e){
+        }
         if ((row != lrow) || (col != lcol)){
             app.changeBackGround(lrow, lcol, null);
         }

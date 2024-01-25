@@ -10,7 +10,19 @@ public class Cell {
         this.tcolor = tcolor;
 
     }
-    public Color bcolor;
-    public String piece;
-    public Color tcolor;
+    protected Color bcolor;
+    protected String piece;
+    protected Color tcolor;
+
+    public Color getBcolor() {
+        return bcolor;
+    }
+
+    public String getPiece() {
+        return piece;
+    }
+
+    public Color getTcolor() {
+        return tcolor;
+    }
 }
