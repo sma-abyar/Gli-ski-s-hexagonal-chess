@@ -36,4 +36,16 @@ public class Cell {
     public char getColumn() {
         return column;
     }
+
+    public void setBcolor(Color bcolor) {
+        this.bcolor = bcolor;
+    }
+
+    public void setPiece(String piece) {
+        this.piece = piece;
+    }
+
+    public void setTcolor(Color tcolor) {
+        this.tcolor = tcolor;
+    }
 }

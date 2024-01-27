@@ -17,7 +17,7 @@ public class GameManager {
     }
     protected int row;
     protected char column;
-    protected Application app;
+    public Application app;
     protected PiecePack pack;
     private Cell sCell;
     private Cell lcell;
@@ -31,64 +31,82 @@ public class GameManager {
 
 
     private void Move(Cell lcell, Cell ncell){
-        int nrow = ncell.getRow();
-        char ncol = ncell.getColumn();
-        int lrow = lcell.getRow();
-        char lcol = lcell.getColumn();
-        app.setCellProperties(nrow, ncol, lcell.getPiece(), Color.BLUE, lcell.getTcolor());
-        bBoard.put(""+nrow+ncol,new Cell(null, lcell.getPiece(), lcell.getTcolor(), nrow, ncol));
-        bBoard.remove(""+lrow+lcol);
-        app.setCellProperties(lrow, lcol, null, null, null);
-        lBColor = Color.BLUE;
+        ncell.setPiece(lcell.getPiece());
+        ncell.setTcolor(lcell.getTcolor());
+        lcell.setPiece(null);
+        lcell.setTcolor(null);
+        lcell.setBcolor(null);
+        app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
+        app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
+        lBColor = null;
     }
     public void turn(){}
-    private void removePiece(){}
+    private void removePiece(){
+    }
     private void changeBackgroundColor(Cell cell, int row, char col, Color color){
-
-        if (lBColor==Color.GREEN){
-            Move(lcell, cell);
-        }
-        if (cell!=null){
-            app.changeBackGround(row, col, Color.GREEN);
-            lBColor = Color.GREEN;
-        }else{
-            app.changeBackGround(row, col, Color.blue);
-        }
         if ((row != lrow) || (col != lcol)){
             app.changeBackGround(lrow, lcol, null);
         }
+        app.changeBackGround(row, col, color);
         lrow = row;
         lcol = col;
         lcell = cell;
-        System.out.println(row+""+col+cell.getPiece());
+        lBColor = color;
     }
     public void clicked(int row, char column){
         this.row = row;
         this.column = column;
         try{
             sCell = bBoard.get(""+row+column);
-            changeBackgroundColor(sCell, row, column, null);
-            whatSelected(sCell);
+            if (lBColor == Color.GREEN){
+                if (sCell.getTcolor() != lcell.getTcolor()){
+                    Move(lcell, sCell);
+                }
+            }else if (sCell.getTcolor() != null){
+                changeBackgroundColor(sCell, row, column, Color.GREEN);
+                System.out.println(row+""+column+sCell.getPiece());
+            }else{
+                changeBackgroundColor(sCell, row, column, Color.BLUE);
+            }
         }catch (Exception e){
+
         }
     }
     public void arrangeBoard(){
-        for(int i =0; i<pack.num; i++){
+        for(char c : chars){
+            col.add(c);
+            for (int i = 0; i<11; i++){
+                try{
+                    bBoard.put(""+i+c, new Cell(null, null, null, i, c));
+                }catch (Exception e){
+
+                }
+            }
+        }for(int i =0; i<pack.num; i++){
             app.setCellProperties(pack.wrow[i], pack.wcol[i], pack.wpiece[i], null, Color.WHITE);
             bBoard.put(""+pack.wrow[i]+pack.wcol[i],new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
             app.setCellProperties(pack.brow[i], pack.bcol[i], pack.bpiece[i], null, Color.BLACK);
             bBoard.put(""+pack.brow[i]+pack.bcol[i],new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
         }
-        for(char c : chars){
-            col.add(c);
-        }
-    }
-    private void whatSelected(Cell cell){
-        String piece = cell.getPiece();
-        if (piece.equals(pack.pieces[0])){
-            app.changeBackGround(cell.getRow(), chars[col.indexOf(cell.getColumn())+1], Color.darkGray);
-            app.changeBackGround(cell.getRow(), chars[col.indexOf(cell.getColumn())-1], Color.darkGray);
 
+    }
+    public void test(Cell cell){
+        int row = cell.getRow();
+        char col = cell.getColumn();
+        for (int i = 0; i<11; i++){
+            try{
+                app.changeBackGround(row-i, col, Color.GRAY);
+                app.changeBackGround(row+i, col, Color.GRAY);
+            }catch (Exception e){
+            }
         }
     }
+//    private void whatSelected(Cell cell){
+//        String piece = cell.getPiece();
+//        if (piece.equals(pack.pieces[0])){
+//            app.changeBackGround(cell.getRow(), chars[col.indexOf(cell.getColumn())+1], Color.darkGray);
+//            app.changeBackGround(cell.getRow(), chars[col.indexOf(cell.getColumn())-1], Color.darkGray);
+//
+//        }
+//    }
 }

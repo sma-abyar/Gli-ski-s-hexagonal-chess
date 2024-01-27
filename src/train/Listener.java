@@ -10,12 +10,7 @@ import train2.GameManager;
 
 
 public class Listener implements EventListener {
-     Cell cell;
-     Cell lcell;
     GameManager game;
-    int lrow;
-    char lcol;
-    Color lBColor;
 
     public Listener(GameManager game) {
         this.game = game;
