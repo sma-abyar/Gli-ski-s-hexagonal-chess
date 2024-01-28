@@ -4,9 +4,7 @@ import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
 import train2.Cell;
 import train2.GameManager;
-
 import java.awt.*;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Rules {
@@ -59,16 +57,15 @@ public class Rules {
         turn ++;
     }
     private void changeBackGroundColor(int row, char col, Color color){
-        board.get(""+row+col).setBcolor(color);
-        app.changeBackGround(row, col, color);
+        try{
+            board.get(""+row+col).setBcolor(color);
+            app.changeBackGround(row, col, color);
+        }catch (Exception e){}
     }
     private void Rock(){
-        for (int i = 0; i<11; i++){
-            try{
-                changeBackGroundColor(row-i, col, Color.lightGray);
-                changeBackGroundColor(row+i, col, Color.lightGray);
-            }catch (Exception e){
-            }
+        for (int i = 1; i<11; i++){
+            changeBackGroundColor(row-i, col, Color.lightGray);
+            changeBackGroundColor(row+i, col, Color.lightGray);
         }
     }
 }
