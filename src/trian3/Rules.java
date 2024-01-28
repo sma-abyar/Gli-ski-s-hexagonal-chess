@@ -147,7 +147,7 @@ public class Rules {
                         }else if(cell.getPiece()!=null){
                             changeBackGroundColor(row, chars[charn+i], Color.DARK_GRAY);
                             break;
-                        };
+                        }
                     }
 
                 }catch (Exception e){
