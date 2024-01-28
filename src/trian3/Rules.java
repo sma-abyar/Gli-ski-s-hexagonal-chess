@@ -163,6 +163,31 @@ public class Rules {
                     }
                 }catch (Exception e){
                 }
+            }for (int i =1; i<=6; i++){
+                if (charn+i<=5){
+                    try{
+                        cell = board.get(""+(row)+chars[charn+i]);
+                        if(cell.getPiece()==null){
+                            changeBackGroundColor(row, chars[charn+i], Color.lightGray);
+                        }else if(cell.getPiece()!=null){
+                            changeBackGroundColor(row, chars[charn+i], Color.DARK_GRAY);
+                            break;
+                        }
+                    }catch (Exception e){
+                    }
+                }else if (charn+i>5){
+                    try{
+                        cell = board.get(""+(row-i)+chars[charn+i]);
+                        if(cell.getPiece()==null){
+                            changeBackGroundColor(row-i, chars[charn+i], Color.lightGray);
+                        }else if(cell.getPiece()!=null){
+                            changeBackGroundColor(row-i, chars[charn+i], Color.DARK_GRAY);
+                            break;
+                        }
+                    }catch (Exception e){
+                    }
+                }
+
             }
         }
     }
