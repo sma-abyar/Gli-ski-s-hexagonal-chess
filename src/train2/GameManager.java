@@ -28,17 +28,25 @@ public class GameManager {
     Color lBColor;
     public List<Character> col = new ArrayList<>();
     char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l'};
+    String charnum = "abcdefghikl";
 
 
     private void Move(Cell lcell, Cell ncell){
-        ncell.setPiece(lcell.getPiece());
-        ncell.setTcolor(lcell.getTcolor());
-        lcell.setPiece(null);
-        lcell.setTcolor(null);
-        lcell.setBcolor(null);
-        app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
-        app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
-        lBColor = null;
+        if (ncell.getBcolor() == Color.DARK_GRAY) {
+            ncell.setPiece(lcell.getPiece());
+            ncell.setTcolor(lcell.getTcolor());
+            lcell.setPiece(null);
+            lcell.setTcolor(null);
+            lcell.setBcolor(null);
+            app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
+            app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
+            lBColor = null;
+            ClearBackGrounds();
+        }else {
+            ClearBackGrounds();
+            app.changeBackGround(ncell.getRow(), ncell.getColumn(), Color.blue);
+        }
+
     }
     public void turn(){}
     private void removePiece(){
@@ -64,6 +72,7 @@ public class GameManager {
                 }
             }else if (sCell.getTcolor() != null){
                 changeBackgroundColor(sCell, row, column, Color.GREEN);
+                test(sCell);
                 System.out.println(row+""+column+sCell.getPiece());
             }else{
                 changeBackgroundColor(sCell, row, column, Color.BLUE);
@@ -93,11 +102,29 @@ public class GameManager {
     public void test(Cell cell){
         int row = cell.getRow();
         char col = cell.getColumn();
-        for (int i = 0; i<11; i++){
-            try{
-                app.changeBackGround(row-i, col, Color.GRAY);
-                app.changeBackGround(row+i, col, Color.GRAY);
-            }catch (Exception e){
+        int charn = charnum.indexOf(col);
+        if( charn == 5){
+            app.changeBackGround(row, chars[charn+1], Color.darkGray);
+            app.changeBackGround(row, chars[charn-1], Color.darkGray);
+            app.changeBackGround(row+1, chars[charn], Color.darkGray);
+
+        }else if (charn<5){
+            app.changeBackGround(row+1, chars[charn+1], Color.darkGray);
+            app.changeBackGround(row, chars[charn-1], Color.darkGray);
+            app.changeBackGround(row+1, chars[charn], Color.darkGray);
+        }else {
+            app.changeBackGround(row, chars[charn+1], Color.darkGray);
+            app.changeBackGround(row+1, chars[charn-1], Color.darkGray);
+            app.changeBackGround(row+1, chars[charn], Color.darkGray);
+        }
+    }
+    public void ClearBackGrounds(){
+        for (char c: chars){
+            for (int i=1; i<=11; i++){
+                try{
+                    app.changeBackGround(i,c,null);
+                }catch (Exception e){
+                }
             }
         }
     }
