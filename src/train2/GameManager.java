@@ -107,6 +107,7 @@ public class GameManager {
             for (int i=1; i<=11; i++){
                 try{
                     app.changeBackGround(i,c,null);
+                    bBoard.get(""+i+c).setBcolor(null);
                 }catch (Exception e){
                 }
             }
