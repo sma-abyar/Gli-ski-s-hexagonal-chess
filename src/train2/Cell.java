@@ -16,6 +16,7 @@ public class Cell {
     private Color tcolor;
     private int row;
     private char column;
+    private int turn = 0;
 
     public Color getBcolor() {
         return bcolor;
@@ -47,5 +48,13 @@ public class Cell {
 
     public void setTcolor(Color tcolor) {
         this.tcolor = tcolor;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
     }
 }

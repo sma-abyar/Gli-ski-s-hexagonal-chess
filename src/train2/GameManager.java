@@ -2,6 +2,7 @@ package train2;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import train.PiecePack;
+import trian3.Rules;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class GameManager {
     protected PiecePack pack;
     private Cell sCell;
     private Cell lcell;
+    protected Rules rules = new Rules();
 
     Map<String, Cell> bBoard = new HashMap<>();
     int lrow;
@@ -32,21 +34,15 @@ public class GameManager {
 
 
     private void Move(Cell lcell, Cell ncell){
-        if (ncell.getBcolor() == Color.DARK_GRAY) {
-            ncell.setPiece(lcell.getPiece());
-            ncell.setTcolor(lcell.getTcolor());
-            lcell.setPiece(null);
-            lcell.setTcolor(null);
-            lcell.setBcolor(null);
-            app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
-            app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
-            lBColor = null;
-            ClearBackGrounds();
-        }else {
-            ClearBackGrounds();
-            app.changeBackGround(ncell.getRow(), ncell.getColumn(), Color.blue);
-        }
-
+        ncell.setPiece(lcell.getPiece());
+        ncell.setTcolor(lcell.getTcolor());
+        lcell.setPiece(null);
+        lcell.setTcolor(null);
+        lcell.setBcolor(null);
+        app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
+        app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
+        lBColor = null;
+        ClearBackGrounds();
     }
     public void turn(){}
     private void removePiece(){
@@ -68,13 +64,17 @@ public class GameManager {
             sCell = bBoard.get(""+row+column);
             if (lBColor == Color.GREEN){
                 if (sCell.getTcolor() != lcell.getTcolor()){
-                    Move(lcell, sCell);
+                    if(sCell.getBcolor() == Color.lightGray){
+                        Move(lcell, sCell);
+                    }
                 }
-            }else if (sCell.getTcolor() != null){
+            }if (sCell.getTcolor() != null && (lBColor == Color.BLUE)){
+                ClearBackGrounds();
                 changeBackgroundColor(sCell, row, column, Color.GREEN);
                 test(sCell);
                 System.out.println(row+""+column+sCell.getPiece());
             }else{
+                ClearBackGrounds();
                 changeBackgroundColor(sCell, row, column, Color.BLUE);
             }
         }catch (Exception e){
@@ -100,23 +100,7 @@ public class GameManager {
 
     }
     public void test(Cell cell){
-        int row = cell.getRow();
-        char col = cell.getColumn();
-        int charn = charnum.indexOf(col);
-        if( charn == 5){
-            app.changeBackGround(row, chars[charn+1], Color.darkGray);
-            app.changeBackGround(row, chars[charn-1], Color.darkGray);
-            app.changeBackGround(row+1, chars[charn], Color.darkGray);
-
-        }else if (charn<5){
-            app.changeBackGround(row+1, chars[charn+1], Color.darkGray);
-            app.changeBackGround(row, chars[charn-1], Color.darkGray);
-            app.changeBackGround(row+1, chars[charn], Color.darkGray);
-        }else {
-            app.changeBackGround(row, chars[charn+1], Color.darkGray);
-            app.changeBackGround(row+1, chars[charn-1], Color.darkGray);
-            app.changeBackGround(row+1, chars[charn], Color.darkGray);
-        }
+        rules.Movement(this, cell);
     }
     public void ClearBackGrounds(){
         for (char c: chars){
@@ -128,12 +112,21 @@ public class GameManager {
             }
         }
     }
-//    private void whatSelected(Cell cell){
-//        String piece = cell.getPiece();
-//        if (piece.equals(pack.pieces[0])){
-//            app.changeBackGround(cell.getRow(), chars[col.indexOf(cell.getColumn())+1], Color.darkGray);
-//            app.changeBackGround(cell.getRow(), chars[col.indexOf(cell.getColumn())-1], Color.darkGray);
-//
-//        }
-//    }
+
+    public Application getApp() {
+        return app;
+    }
+
+    public String getCharnum() {
+        return charnum;
+    }
+
+    public char[] getChars() {
+        return chars;
+    }
+
+    public Map<String, Cell> getbBoard() {
+        return bBoard;
+    }
+
 }
