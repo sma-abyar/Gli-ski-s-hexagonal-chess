@@ -39,9 +39,9 @@ public class Rules {
     }
 
     public void whitePawn() {
-        if(turn == 0){
+        /*if(turn == 0){
             changeBackGroundColor(row+2,chars[charn], Color.lightGray);
-        }if( charn == 5){
+        }*/if( charn == 5){
             changeBackGroundColor(row,chars[charn+1], Color.lightGray);
             changeBackGroundColor(row,chars[charn-1], Color.lightGray);
             changeBackGroundColor(row+1,chars[charn], Color.lightGray);
@@ -58,14 +58,41 @@ public class Rules {
     }
     private void changeBackGroundColor(int row, char col, Color color){
         try{
-            board.get(""+row+col).setBcolor(color);
+            Cell cell = board.get(""+row+col);
+            cell.setBcolor(color);
             app.changeBackGround(row, col, color);
+            if(cell.getPiece()!=null){
+                cell.setBcolor(Color.DARK_GRAY);
+                app.changeBackGround(row, col, Color.DARK_GRAY);
+            }
         }catch (Exception e){}
     }
     private void Rock(){
+        Cell cell;
         for (int i = 1; i<11; i++){
-            changeBackGroundColor(row-i, col, Color.lightGray);
-            changeBackGroundColor(row+i, col, Color.lightGray);
+            try{
+                cell = board.get(""+(row-i)+col);
+                if(cell.getPiece()==null){
+                    changeBackGroundColor(row-i, col, Color.lightGray);
+                }else if(cell.getPiece()!=null){
+                    changeBackGroundColor(row-i, col, Color.DARK_GRAY);
+                    break;
+                }
+            }catch (Exception e){
+            }
+        }
+        for (int i = 1; i<11; i++){
+            try{
+                cell = board.get(""+(row+i)+col);
+                if(cell.getPiece()==null){
+                    changeBackGroundColor(row+i, col, Color.lightGray);
+                }else if(cell.getPiece()!=null){
+                    changeBackGroundColor(row+i, col, Color.DARK_GRAY);
+                    break;
+                }
+            }catch (Exception e){
+
+            }
         }
     }
 }
