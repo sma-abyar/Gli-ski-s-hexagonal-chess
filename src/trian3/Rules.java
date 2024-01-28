@@ -81,7 +81,7 @@ public class Rules {
             }catch (Exception e){
             }
         }
-        for (int i = 1; i<11; i++){
+        for (int i = 1; i<=11; i++){
             try{
                 cell = board.get(""+(row+i)+col);
                 if(cell.getPiece()==null){
@@ -91,6 +91,78 @@ public class Rules {
                     break;
                 }
             }catch (Exception e){
+            }
+        }if(charn == 5){
+            for (int i =1; i<=6; i++){
+                try{
+                    cell = board.get(""+(row)+chars[charn+i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row, chars[charn+i], Color.lightGray);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row, chars[charn+i], Color.DARK_GRAY);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }
+            for (int i =1; i<=6; i++){
+                try{
+                    cell = board.get(""+(row)+chars[charn-i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row, chars[charn-i], Color.lightGray);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row, chars[charn-i], Color.DARK_GRAY);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }
+
+        }else if(charn<5){
+            for (int i =1; i<=6; i++){
+                try{
+                    cell = board.get(""+(row)+chars[charn-i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row, chars[charn-i], Color.lightGray);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row, chars[charn-i], Color.DARK_GRAY);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }for (int i =1; i<=6; i++){
+                try{
+                    if (charn+i<=5){
+                        cell = board.get(""+(row+i)+chars[charn+i]);
+                        if(cell.getPiece()==null){
+                            changeBackGroundColor(row+i, chars[charn+i], Color.lightGray);
+                        }else if(cell.getPiece()!=null){
+                            changeBackGroundColor(row+i, chars[charn+i], Color.DARK_GRAY);
+                            break;
+                        }
+                    }else if (charn>5){
+                        cell = board.get(""+(row)+chars[charn+i]);
+                        if(cell.getPiece()==null){
+                            changeBackGroundColor(row, chars[charn+i], Color.lightGray);
+                        }else if(cell.getPiece()!=null){
+                            changeBackGroundColor(row, chars[charn+i], Color.DARK_GRAY);
+                            break;
+                        };
+                    }
+
+                }catch (Exception e){
+                }
+            }for (int i =1; i<=6; i++){
+                try{
+                    cell = board.get(""+(row-i)+chars[charn-i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row-i, chars[charn-i], Color.lightGray);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row-i, chars[charn-i], Color.DARK_GRAY);
+                        break;
+                    }
+                }catch (Exception e){
+                }
             }
         }
     }
