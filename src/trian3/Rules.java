@@ -356,7 +356,32 @@ public class Rules {
         }
     }
     private void ObliqueMove(){
-
+        Cell cell;
+        //خط افقی
+        for (int i = 1; i<11; i++){
+            try{
+                cell = board.get(""+(row-i)+ chars[charn-2*i]);
+                if(cell.getPiece()==null){
+                    changeBackGroundColor(row-i, chars[charn-2*i], Color.lightGray);
+                }else if(cell.getPiece()!=null){
+                    changeBackGroundColor(row-i, chars[charn-2*i], Color.DARK_GRAY);
+                    break;
+                }
+            }catch (Exception e){
+            }
+        }
+        for (int i = 1; i<=11; i++){
+            try{
+                cell = board.get(""+(row+i)+chars[charn+2*i]);
+                if(cell.getPiece()==null){
+                    changeBackGroundColor(row+i, chars[charn+2*i], Color.lightGray);
+                }else if(cell.getPiece()!=null){
+                    changeBackGroundColor(row+i, chars[charn+2*i], Color.DARK_GRAY);
+                    break;
+                }
+            }catch (Exception e){
+            }
+        }
     }
     private void changeBackGroundColor(int row, char col, Color color){
         try{
