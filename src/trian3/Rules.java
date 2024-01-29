@@ -32,6 +32,12 @@ public class Rules {
             blackPawn();
         }else if(name.equals(PieceName.WHITE_ROCK) || name.equals(PieceName.BLACK_ROCK)){
             Rock();
+        }else if (name.equals(PieceName.BLACK_BISHOP) || name.equals(PieceName.WHITE_BISHOP)) {
+            Bishop();
+        } else if (name.equals(PieceName.BLACK_QUEEN) || name.equals(PieceName.WHITE_QUEEN)) {
+            Queen();
+        } else if (name.equals(PieceName.BLACK_KING) || name.equals(PieceName.WHITE_KING)) {
+            King();
         }
     }
 
@@ -51,7 +57,7 @@ public class Rules {
         }
     }
 
-    public void whitePawn() {
+    private void whitePawn() {
         /*if(turn == 0){
             changeBackGroundColor(row+2,chars[charn], Color.lightGray);
         }*/if( charn == 5){
@@ -69,19 +75,20 @@ public class Rules {
             }
         turn ++;
     }
-    private void changeBackGroundColor(int row, char col, Color color){
-        try{
-            Cell cell = board.get(""+row+col);
-            cell.setBcolor(color);
-            app.changeBackGround(row, col, color);
-            if(cell.getPiece()!=null){
-                cell.setBcolor(Color.DARK_GRAY);
-                app.changeBackGround(row, col, Color.DARK_GRAY);
-            }
-        }catch (Exception e){}
-    }
+
     private void Rock(){
         StraightMove();
+    }
+    private void Bishop(){
+        ObliqueMove();
+    }
+    private void Queen(){
+        StraightMove();
+        ObliqueMove();
+    }
+    private void King(){
+        whitePawn();
+        blackPawn();
     }
     private void StraightMove(){
         Cell cell;
@@ -347,6 +354,20 @@ public class Rules {
                 }
             }
         }
+    }
+    private void ObliqueMove(){
+
+    }
+    private void changeBackGroundColor(int row, char col, Color color){
+        try{
+            Cell cell = board.get(""+row+col);
+            cell.setBcolor(color);
+            app.changeBackGround(row, col, color);
+            if(cell.getPiece()!=null){
+                cell.setBcolor(Color.DARK_GRAY);
+                app.changeBackGround(row, col, Color.DARK_GRAY);
+            }
+        }catch (Exception e){}
     }
 }
 
