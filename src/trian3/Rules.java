@@ -81,6 +81,9 @@ public class Rules {
         }catch (Exception e){}
     }
     private void Rock(){
+        StraightMove();
+    }
+    private void StraightMove(){
         Cell cell;
         //خطوط بالا و پایین
         for (int i = 1; i<11; i++){
@@ -149,16 +152,16 @@ public class Rules {
             //سمت راست پایین
 
             for (int i =1; i<=11; i++){
-                    try{
-                        cell = board.get(""+(row-i)+chars[charn+i]);
-                        if(cell.getPiece()==null){
-                            changeBackGroundColor(row-i, chars[charn+i], Color.LIGHT_GRAY);
-                        }else if(cell.getPiece()!=null){
-                            changeBackGroundColor(row-i, chars[charn+i], Color.DARK_GRAY);
-                            break;
-                        }
-                    }catch (Exception e){
+                try{
+                    cell = board.get(""+(row-i)+chars[charn+i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row-i, chars[charn+i], Color.LIGHT_GRAY);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row-i, chars[charn+i], Color.DARK_GRAY);
+                        break;
                     }
+                }catch (Exception e){
+                }
 
             }
 
