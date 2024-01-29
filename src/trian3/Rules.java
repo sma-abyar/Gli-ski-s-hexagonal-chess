@@ -36,6 +36,19 @@ public class Rules {
     }
 
     private void blackPawn() {
+        if( charn == 5){
+            changeBackGroundColor(row-1,chars[charn+1], Color.lightGray);
+            changeBackGroundColor(row-1,chars[charn-1], Color.lightGray);
+            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+        }else if (charn<5){
+            changeBackGroundColor(row,chars[charn+1], Color.lightGray);
+            changeBackGroundColor(row-1,chars[charn-1], Color.lightGray);
+            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+        }else{
+            changeBackGroundColor(row-1,chars[charn+1], Color.lightGray);
+            changeBackGroundColor(row,chars[charn-1], Color.lightGray);
+            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+        }
     }
 
     public void whitePawn() {
@@ -254,7 +267,6 @@ public class Rules {
                 } else if (charn-i<=5) {
                     try{
                         cell = board.get(""+(row+j1)+chars[charn-i]);
-                        System.out.println(row);
                         if(cell.getPiece()==null){
                             changeBackGroundColor(row+j1, chars[charn-i], Color.lightGray);
                         }else if(cell.getPiece()!=null){
@@ -330,8 +342,6 @@ public class Rules {
                     }
                 }catch (Exception e){
                 }
-
-
             }
         }
     }
