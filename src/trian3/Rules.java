@@ -16,7 +16,8 @@ public class Rules {
     char col;
     int charn;
     int turn;
-    Cell[][] colored;
+    int[][] rcolored;
+    int[][] ccolored;
     Map<String, Cell> board;
     public void Movement(GameManager board, Cell cell){
         this.charnum = board.getCharnum();
@@ -259,13 +260,13 @@ public class Rules {
 
 
     private void StraightMove(){
-        colored = new Cell[6][11];
+        rcolored = new int[6][11];
+        ccolored = new int[6][11];
         Cell cell;
         //خطوط بالا و پایین
         for (int i = 1; i<11; i++){
             try{
                 cell = board.get(""+(row-i)+col);
-                addToArray(colored, cell, 0, i);
                 if(cell.getPiece()==null){
                     changeBackGroundColor(row-i, col, Color.lightGray);
                 }else if(cell.getPiece()!=null){
@@ -276,9 +277,9 @@ public class Rules {
             }
         }
         for (int i = 1; i<=11; i++){
+            addToArray(rcolored, ccolored, 1, i,row+i, charnum.indexOf(col));
             try{
                 cell = board.get(""+(row+i)+col);
-                addToArray(colored, cell, 1, i);
                 if(cell.getPiece()==null){
                     changeBackGroundColor(row+i, col, Color.lightGray);
                 }else if(cell.getPiece()!=null){
@@ -292,9 +293,9 @@ public class Rules {
         if(charn == 5){
             //سمت راست بالا
             for (int i =1; i<=11; i++){
+                addToArray(rcolored, ccolored, 1, i,row, charnum.indexOf(chars[charn+i]));
                 try{
                     cell = board.get(""+(row)+chars[charn+i]);
-                    addToArray(colored, cell, 2, i);
                     if(cell.getPiece()==null){
                         changeBackGroundColor(row, chars[charn+i], Color.lightGray);
                     }else if(cell.getPiece()!=null){
@@ -308,7 +309,6 @@ public class Rules {
             for (int i =1; i<=11; i++){
                 try{
                     cell = board.get(""+(row)+chars[charn-i]);
-                    addToArray(colored, cell, 3, i);
                     if(cell.getPiece()==null){
                         changeBackGroundColor(row, chars[charn-i], Color.lightGray);
                     }else if(cell.getPiece()!=null){
@@ -322,7 +322,6 @@ public class Rules {
             for (int i =1; i<=11; i++){
                 try{
                     cell = board.get(""+(row-i)+chars[charn-i]);
-                    addToArray(colored, cell, 4, i);
                     if(cell.getPiece()==null){
                         changeBackGroundColor(row-i, chars[charn-i], Color.LIGHT_GRAY);
                     }else if(cell.getPiece()!=null){
@@ -336,7 +335,6 @@ public class Rules {
             for (int i =1; i<=11; i++){
                 try{
                     cell = board.get(""+(row-i)+chars[charn+i]);
-                    addToArray(colored, cell, 5, i);
                     if(cell.getPiece()==null){
                         changeBackGroundColor(row-i, chars[charn+i], Color.LIGHT_GRAY);
                     }else if(cell.getPiece()!=null){
@@ -347,7 +345,7 @@ public class Rules {
                 }
 
             }
-            System.out.println(Arrays.deepToString(colored));
+//            System.out.println(Arrays.deepToString(colored));
         }
         //اگر سمت چپ صفحه بود
         else if(charn<5){
@@ -533,6 +531,23 @@ public class Rules {
     }
     private void ObliqueMove(){
         Cell cell;
+        if(charn==5){
+            for(int i = 1; i<11; i++){
+                try{
+                    cell = board.get(""+(row-i)+chars[charn+i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row-i, chars[charn+i], Color.LIGHT_GRAY);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row-i, chars[charn+i], Color.DARK_GRAY);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }
+        }
+    }
+    private void mObliqueMove(){
+        Cell cell;
         StraightMove();
         for (int i = 0; i<11; i++){
             Cell cell1;
@@ -540,22 +555,24 @@ public class Rules {
             int[] row = new int[3];
             int[] col = new int[3];
             try {
-                row[0] = colored[1][i].getRow();
-                row[1] = colored[2][i].getRow();
-                col[0] = charnum.indexOf(colored[1][i].getColumn());
-                col[1] = charnum.indexOf(colored[2][i].getColumn());
+                row[0] = rcolored[1][i];
+                row[1] = rcolored[2][i];
+                col[0] = ccolored[1][i];
+                col[1] = ccolored[2][i];
+                row[2] = (row[0] + row[1]) /2;
+                col[2] = (col[0] + col[1]) /2;
+                changeBackGroundColor(row[2], chars[col[2]], Color.lightGray);
             }catch (Exception e){
                 continue;
             }
-            row[2] = (row[0] + row[1]) /2;
-            col[2] = (col[0] + col[1]) /2;
-            changeBackGroundColor(row[2], chars[col[2]], Color.lightGray);
 
         }
     }
 
-    private void addToArray(Cell[][] arr, Cell cell, int dir, int num){
-        arr[dir][num] = cell;
+    private void addToArray(int[][] rarr, int[][] carr, int dir, int num, int row, int col){
+        rarr[dir][num] = row;
+        carr[dir][num] = col;
+
     }
     private void changeBackGroundColor(int row, char col, Color color){
         try{
