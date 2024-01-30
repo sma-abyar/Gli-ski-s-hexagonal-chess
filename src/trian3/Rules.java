@@ -45,7 +45,14 @@ public class Rules {
     }
 
     private void blackPawn() {
-        if( charn == 5){
+        if(charn == 0){
+            changeBackGroundColor(row,chars[charn+1], Color.lightGray);
+            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+        } else if (charn==10) {
+            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            changeBackGroundColor(row,chars[charn-1], Color.lightGray);
+
+        }else if( charn == 5){
             changeBackGroundColor(row-1,chars[charn+1], Color.lightGray);
             changeBackGroundColor(row-1,chars[charn-1], Color.lightGray);
             changeBackGroundColor(row-1,chars[charn], Color.lightGray);
