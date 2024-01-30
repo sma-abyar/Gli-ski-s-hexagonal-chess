@@ -532,13 +532,53 @@ public class Rules {
     private void ObliqueMove(){
         Cell cell;
         if(charn==5){
+            //بالا چپ
             for(int i = 1; i<11; i++){
                 try{
-                    cell = board.get(""+(row-i)+chars[charn+i]);
+                    cell = board.get(""+(row+i)+chars[charn-i]);
                     if(cell.getPiece()==null){
-                        changeBackGroundColor(row-i, chars[charn+i], Color.LIGHT_GRAY);
+                        changeBackGroundColor(row+i, chars[charn-i], Color.LIGHT_GRAY);
                     }else if(cell.getPiece()!=null){
-                        changeBackGroundColor(row-i, chars[charn+i], Color.DARK_GRAY);
+                        changeBackGroundColor(row+i, chars[charn-i], Color.DARK_GRAY);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }
+            //بالا راست
+            for(int i = 1; i<11; i++){
+                try{
+                    cell = board.get(""+(row+i)+chars[charn+i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row+i, chars[charn+i], Color.LIGHT_GRAY);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row+i, chars[charn+i], Color.DARK_GRAY);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }
+            //پایین چپ
+            for(int i = 1; i<11; i++){
+                try{
+                    cell = board.get(""+(row-2*i)+chars[charn-i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row+-2*i, chars[charn-i], Color.LIGHT_GRAY);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row-2*i, chars[charn-i], Color.DARK_GRAY);
+                        break;
+                    }
+                }catch (Exception e){
+                }
+            }
+            //بالا راست
+            for(int i = 1; i<11; i++){
+                try{
+                    cell = board.get(""+(row-2*i)+chars[charn+i]);
+                    if(cell.getPiece()==null){
+                        changeBackGroundColor(row-2*i, chars[charn+i], Color.LIGHT_GRAY);
+                    }else if(cell.getPiece()!=null){
+                        changeBackGroundColor(row-2*i, chars[charn+i], Color.DARK_GRAY);
                         break;
                     }
                 }catch (Exception e){
