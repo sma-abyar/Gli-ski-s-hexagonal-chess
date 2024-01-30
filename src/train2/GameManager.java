@@ -1,6 +1,7 @@
 package train2;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
+import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 import train.PiecePack;
 import trian3.Rules;
 
@@ -23,7 +24,8 @@ public class GameManager {
     private Cell sCell;
     private Cell lcell;
     protected Rules rules = new Rules();
-
+    StringColor[] removed = new StringColor[0];
+    int lastRemovedItem =0;
     Map<String, Cell> bBoard = new HashMap<>();
     int lrow;
     char lcol;
@@ -45,7 +47,25 @@ public class GameManager {
         ClearBackGrounds();
     }
     public void turn(){}
-    private void removePiece(){
+    private void removePiece(Cell cell){
+        StringColor[] temp = new StringColor[removed.length+1];
+        for(int i = 0; i< removed.length; i++){
+            temp[i] = removed[i];
+        }
+        System.out.println(cell.getPiece());
+        if(cell.getTcolor()==Color.BLACK){
+            removed[lastRemovedItem] = new StringColor(cell.getPiece(), StringColor.BLACK);
+        }else{
+            removed[lastRemovedItem] = new StringColor(cell.getPiece(), StringColor.WHITE);
+        }
+        lastRemovedItem++;
+        removed = new StringColor[temp.length];
+        for(int i = 0; i< removed.length; i++){
+            removed[i] = temp[i];
+        }
+        app.setRemovedPieces(new StringColor[]{
+                new StringColor(cell.getPiece(), StringColor.BLACK)
+        });
     }
     private void changeBackgroundColor(Cell cell, int row, char col, Color color){
         if ((row != lrow) || (col != lcol)){
@@ -64,6 +84,10 @@ public class GameManager {
             sCell = bBoard.get(""+row+column);
             if (lBColor == Color.GREEN){
                 if (sCell.getTcolor() != lcell.getTcolor()){
+                    if(sCell.getBcolor() == Color.darkGray){
+                        removePiece(sCell);
+                        Move(lcell,sCell);
+                    }
                     if(sCell.getBcolor() == Color.lightGray){
                         Move(lcell, sCell);
                     }
