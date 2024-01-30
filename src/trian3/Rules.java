@@ -164,17 +164,89 @@ public class Rules {
                 }if(cell.getPiece()!=null){
                     changeBackGroundColor(row-2, chars[charn+1], Color.darkGray);
                 }
-                cell = board.get("" + (row-2) + chars[charn-1]);
+                cell = board.get("" + (row-1) + chars[charn-1]);
                 if(cell.getPiece()==null){
-                    changeBackGroundColor(row-2, chars[charn-1], Color.lightGray);
+                    changeBackGroundColor(row-1, chars[charn-1], Color.lightGray);
                 }if(cell.getPiece()!=null){
-                    changeBackGroundColor(row-2, chars[charn-1], Color.darkGray);
+                    changeBackGroundColor(row-1, chars[charn-1], Color.darkGray);
+                }
+                cell = board.get("" + (row+2) + chars[charn-1]);
+                if(cell.getPiece()==null){
+                    changeBackGroundColor(row+2, chars[charn-1], Color.lightGray);
+                }if(cell.getPiece()!=null){
+                    changeBackGroundColor(row+2, chars[charn-1], Color.darkGray);
                 }
             }catch (Exception e){
             }
         }
 
     }
+
+//    private void straightMove() {
+//        checkAndHighlightCellsInDirection(-1, 0); // Up
+//        checkAndHighlightCellsInDirection(1, 0);  // Down
+//        checkAndHighlightCellsInDirection(0, -1); // Left
+//        checkAndHighlightCellsInDirection(0, 1);  // Right
+//
+//        // If the piece is in the middle of the board
+//        if (charn == 5) {
+//            checkAndHighlightCellsInDirection(0, -1); // Horizontal left
+//            checkAndHighlightCellsInDirection(0, 1);  // Horizontal right
+//        } else {
+//            // If the piece is on the left side of the board
+//            if (charn < 5) {
+//                checkAndHighlightCellsInDirection(-1, -1); // Diagonal left up
+//                checkAndHighlightCellsInDirection(1, 1);   // Diagonal right down
+//                checkAndHighlightCellsInDirection(-1, 1);  // Diagonal right up
+//            }
+//            // If the piece is on the right side of the board
+//            else if (charn > 5) {
+//                checkAndHighlightCellsInDirection(-1, -1); // Diagonal left up
+//                checkAndHighlightCellsInDirection(1, -1);  // Diagonal left down
+//                checkAndHighlightCellsInDirection(-1, 1);  // Diagonal right up
+//            }
+//        }
+//    }
+//
+//    private void checkAndHighlightCellsInDirection(int rowChange, int colChange) {
+//        Cell cell;
+//        for (int i = 1; i <= 11; i++) {
+//            try {
+//                int newRow = row + i * rowChange;
+//                int newCol = charn == 5 ? col : chars[charn] + i * colChange;
+//
+//                cell = board.get("" + newRow + newCol);
+//                if (cell.getPiece() == null) {
+//                    changeBackgroundColor(newRow, chars[newCol], Color.lightGray);
+//                } else {
+//                    changeBackgroundColor(newRow, chars[newCol], Color.DARK_GRAY);
+//                    break;
+//                }
+//            } catch (Exception e) {
+//                // Handle exceptions if necessary
+//            }
+//        }
+//    }
+
+
+//    private void changeBackgroundColor(int row, char col, Color color) {
+//        // Implement the logic to change the background color
+//        try{
+//            Cell cell = board.get(""+row+col);
+//            cell.setBcolor(color);
+//            app.changeBackGround(row, col, color);
+//            if(cell.getPiece()!=null){
+//                cell.setBcolor(Color.DARK_GRAY);
+//                app.changeBackGround(row, col, Color.DARK_GRAY);
+//            }
+//        }catch (Exception e){}
+//    }
+
+
+
+    //===============================
+
+
     private void StraightMove(){
         Cell cell;
         //خطوط بالا و پایین
