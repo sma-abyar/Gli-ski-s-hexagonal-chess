@@ -323,7 +323,6 @@ public class Rules {
                 }
             }
             //سمت راست پایین
-
             for (int i =1; i<=11; i++){
                 try{
                     cell = board.get(""+(row-i)+chars[charn+i]);
