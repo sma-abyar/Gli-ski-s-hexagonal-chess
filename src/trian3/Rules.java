@@ -20,7 +20,7 @@ public class Rules {
     int row;
     char col;
     int charn;
-    int turn;
+    int round;
     int[][] rcolored;
     int[][] ccolored;
     Map<String, Cell> board;
@@ -32,7 +32,7 @@ public class Rules {
         this.row = cell.getRow();
         this.col = cell.getColumn();
         this.charn = charnum.indexOf(col);
-        this.turn = cell.getTurn();
+        this.round = cell.getRound();
         this.board = board.getbBoard();
         String name = cell.getPiece();
         if (name.equals(WHITE_PAWN)){
@@ -97,7 +97,7 @@ public class Rules {
                 changeBackGroundColor(row-1,chars[charn], Color.lightGray);
             }
         }
-        turn ++;
+        round ++;
     }
 
     private void whitePawn() {
@@ -147,7 +147,7 @@ public class Rules {
                 changeBackGroundColor(row+1,chars[charn], Color.lightGray);
             }
         }
-        turn ++;
+        round ++;
     }
 
     private void Rock(){

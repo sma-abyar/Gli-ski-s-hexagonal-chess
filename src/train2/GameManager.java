@@ -34,6 +34,7 @@ public class GameManager {
     public List<Character> col = new ArrayList<>();
     char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l'};
     String charnum = "abcdefghikl";
+    String  turn = "White";
 
 
     private void Move(Cell lcell, Cell ncell){
@@ -47,7 +48,19 @@ public class GameManager {
         lBColor = null;
         ClearBackGrounds();
     }
-    public void turn(){}
+    public boolean turnDetect(Cell cell){
+        app.setMessage( turn+"'s Turn");
+
+        if (turn.equals("White") && lcell.getTcolor().equals(Color.white)){
+//             turn = "Black";
+             return true;
+        }else if(turn.equals("Black") && lcell.getTcolor().equals(Color.black)){
+//             turn = "White";
+             return true;
+        }else{
+            return false;
+        }
+    }
     private void removePiece(Cell cell){
         StringColor[] temp = new StringColor[removed.length+1];
         for(int i = 0; i< removed.length-1; i++){
@@ -85,24 +98,26 @@ public class GameManager {
         this.column = column;
         try{
             sCell = bBoard.get(""+row+column);
-            if (lBColor == Color.GREEN){
-                if (sCell.getTcolor() != lcell.getTcolor()){
-                    if(sCell.getBcolor() == Color.darkGray){
-                        removePiece(sCell);
-                        Move(lcell,sCell);
+            if (turnDetect(sCell)){
+                if (lBColor == Color.GREEN){
+                    if (sCell.getTcolor() != lcell.getTcolor()){
+                        if(sCell.getBcolor() == Color.darkGray){
+                            removePiece(sCell);
+                            Move(lcell,sCell);
+                        }
+                        if(sCell.getBcolor() == Color.lightGray){
+                            Move(lcell, sCell);
+                        }
                     }
-                    if(sCell.getBcolor() == Color.lightGray){
-                        Move(lcell, sCell);
-                    }
+                }if (sCell.getTcolor() != null && (lBColor == Color.BLUE)){
+                    ClearBackGrounds();
+                    changeBackgroundColor(sCell, row, column, Color.GREEN);
+                    test(sCell);
+                    System.out.println(row+""+column+sCell.getPiece());
+                }else{
+                    ClearBackGrounds();
+                    changeBackgroundColor(sCell, row, column, Color.BLUE);
                 }
-            }if (sCell.getTcolor() != null && (lBColor == Color.BLUE)){
-                ClearBackGrounds();
-                changeBackgroundColor(sCell, row, column, Color.GREEN);
-                test(sCell);
-                System.out.println(row+""+column+sCell.getPiece());
-            }else{
-                ClearBackGrounds();
-                changeBackgroundColor(sCell, row, column, Color.BLUE);
             }
         }catch (Exception e){
 

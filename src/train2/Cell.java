@@ -16,7 +16,7 @@ public class Cell {
     private Color tcolor;
     private int row;
     private char column;
-    private int turn = 0;
+    private int round = 0;
 
     public Color getBcolor() {
         return bcolor;
@@ -50,12 +50,12 @@ public class Cell {
         this.tcolor = tcolor;
     }
 
-    public int getTurn() {
-        return turn;
+    public int getRound() {
+        return round;
     }
 
-    public void setTurn(int turn) {
-        this.turn = turn;
+    public void setRound(int round) {
+        this.round = round;
     }
 
 
