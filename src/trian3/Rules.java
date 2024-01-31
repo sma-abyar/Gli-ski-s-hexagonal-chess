@@ -11,6 +11,7 @@ import java.util.Map;
 public class Rules {
     String charnum;
     Application app;
+    Cell sCell;
     char[] chars;
     int row;
     char col;
@@ -20,6 +21,7 @@ public class Rules {
     int[][] ccolored;
     Map<String, Cell> board;
     public void Movement(GameManager board, Cell cell){
+        this.sCell = cell;
         this.charnum = board.getCharnum();
         this.app = board.getApp();
         this.chars = board.getChars();
@@ -922,11 +924,13 @@ public class Rules {
     private void changeBackGroundColor(int row, char col, Color color){
         try{
             Cell cell = board.get(""+row+col);
-            cell.setBcolor(color);
-            app.changeBackGround(row, col, color);
-            if(cell.getPiece()!=null){
-                cell.setBcolor(Color.DARK_GRAY);
-                app.changeBackGround(row, col, Color.DARK_GRAY);
+            if (sCell.getTcolor()!= cell.getTcolor()){
+                cell.setBcolor(color);
+                app.changeBackGround(row, col, color);
+                if(cell.getPiece()!=null){
+                    cell.setBcolor(Color.DARK_GRAY);
+                    app.changeBackGround(row, col, Color.DARK_GRAY);
+                }
             }
         }catch (Exception e){}
     }

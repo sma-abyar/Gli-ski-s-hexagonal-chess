@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class GameManager {
     public GameManager(Application app, PiecePack pack) {
@@ -49,23 +50,25 @@ public class GameManager {
     public void turn(){}
     private void removePiece(Cell cell){
         StringColor[] temp = new StringColor[removed.length+1];
-        for(int i = 0; i< removed.length; i++){
+        for(int i = 0; i< removed.length-1; i++){
             temp[i] = removed[i];
         }
-        System.out.println(cell.getPiece());
         if(cell.getTcolor()==Color.BLACK){
-            removed[lastRemovedItem] = new StringColor(cell.getPiece(), StringColor.BLACK);
+            temp[lastRemovedItem] = new StringColor(cell.getPiece(), StringColor.BLACK);
         }else{
-            removed[lastRemovedItem] = new StringColor(cell.getPiece(), StringColor.WHITE);
+            temp[lastRemovedItem] = new StringColor(cell.getPiece(), StringColor.WHITE);
         }
         lastRemovedItem++;
         removed = new StringColor[temp.length];
         for(int i = 0; i< removed.length; i++){
             removed[i] = temp[i];
         }
-        app.setRemovedPieces(new StringColor[]{
+        try{
+            app.setRemovedPieces(new StringColor[]{
                 new StringColor(cell.getPiece(), StringColor.BLACK)
-        });
+            });
+        }catch (Exception e){
+        }
     }
     private void changeBackgroundColor(Cell cell, int row, char col, Color color){
         if ((row != lrow) || (col != lcol)){

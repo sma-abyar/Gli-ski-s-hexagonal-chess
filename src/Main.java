@@ -14,10 +14,10 @@ public class Main {
         GameManager game = new GameManager(application,pack);
         game.arrangeBoard();
         application.registerEventListener(new SystemOutEventListener());
-        application.setRemovedPieces(new StringColor[]{
-                new StringColor(PieceName.BLACK_BISHOP, StringColor.BLACK),
-                new StringColor(PieceName.WHITE_BISHOP, StringColor.WHITE)
-        });
+//        application.setRemovedPieces(new StringColor[]{
+//                new StringColor(PieceName.BLACK_BISHOP, StringColor.BLACK),
+//                new StringColor(PieceName.WHITE_BISHOP, StringColor.WHITE)
+//        });
         
         application.setMessage("White's Turn");
         application.registerEventListener(new Listener(game));
