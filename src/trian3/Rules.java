@@ -7,6 +7,10 @@ import train2.GameManager;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
+
+import static ir.sharif.math.bp02_1.hex_chess.util.PieceName.BLACK_PAWN;
+import static ir.sharif.math.bp02_1.hex_chess.util.PieceName.WHITE_PAWN;
 
 public class Rules {
     String charnum;
@@ -31,9 +35,9 @@ public class Rules {
         this.turn = cell.getTurn();
         this.board = board.getbBoard();
         String name = cell.getPiece();
-        if (name.equals(PieceName.WHITE_PAWN)){
+        if (name.equals(WHITE_PAWN)){
             whitePawn();
-        }else if(name.equals(PieceName.BLACK_PAWN)){
+        }else if(name.equals(BLACK_PAWN)){
             blackPawn();
         }else if(name.equals(PieceName.WHITE_ROCK) || name.equals(PieceName.BLACK_ROCK)){
             Rock();
@@ -48,52 +52,101 @@ public class Rules {
 
     private void blackPawn() {
         if(charn == 0){
-            changeBackGroundColor(row,chars[charn+1], Color.lightGray);
-            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            if (board.get(""+(row)+chars[charn+1]).getPiece() != null){
+                changeBackGroundColor(row,chars[charn+1], Color.darkGray);
+            }
+            if (board.get(""+(row-1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            }
         } else if (charn==10) {
-            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
-            changeBackGroundColor(row,chars[charn-1], Color.lightGray);
+            if (board.get(""+(row)+chars[charn-1]).getPiece() != null){
+                changeBackGroundColor(row,chars[charn-1], Color.darkGray);
+            }
+            if (board.get(""+(row-1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            }
+        } else if( charn == 5){
+            if (board.get(""+(row-1)+chars[charn+1]).getPiece() != null) {
+                changeBackGroundColor(row-1,chars[charn+1], Color.darkGray);
+            }
 
-        }else if( charn == 5){
-            changeBackGroundColor(row-1,chars[charn+1], Color.lightGray);
-            changeBackGroundColor(row-1,chars[charn-1], Color.lightGray);
-            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            if (board.get(""+(row-1)+chars[charn-1]).getPiece() != null){
+                changeBackGroundColor(row-1,chars[charn-1], Color.darkGray);
+            }
+            if (board.get(""+(row-1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            }
         }else if (charn<5){
-            changeBackGroundColor(row,chars[charn+1], Color.lightGray);
-            changeBackGroundColor(row-1,chars[charn-1], Color.lightGray);
-            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            if (board.get(""+(row)+chars[charn+1]).getPiece() != null){
+                changeBackGroundColor(row,chars[charn+1], Color.darkGray);
+            }
+            if (board.get(""+(row-1)+chars[charn-1]).getPiece() != null){
+                changeBackGroundColor(row-1,chars[charn-1], Color.darkGray);
+            }
+            if (board.get(""+(row-1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            }
         }else{
-            changeBackGroundColor(row-1,chars[charn+1], Color.lightGray);
-            changeBackGroundColor(row,chars[charn-1], Color.lightGray);
-            changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            if (board.get(""+(row-1)+chars[charn+1]).getPiece() != null){
+                changeBackGroundColor(row-1,chars[charn+1], Color.darkGray);
+            }
+            if (board.get(""+(row)+chars[charn-1]).getPiece() != null){
+                changeBackGroundColor(row,chars[charn-1], Color.darkGray);
+            }
+            if (board.get(""+(row-1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row-1,chars[charn], Color.lightGray);
+            }
         }
+        turn ++;
     }
 
     private void whitePawn() {
-        /*if(turn == 0){
-            changeBackGroundColor(row+2,chars[charn], Color.lightGray);
-        }*/if(charn == 0){
-            changeBackGroundColor(row+1,chars[charn+1], Color.lightGray);
-            changeBackGroundColor(row+1,chars[charn], Color.lightGray);
-//            changeBackGroundColor(row+1,chars[charn], Color.lightGray);
-        } else if (charn==10) {
-            changeBackGroundColor(row+1,chars[charn], Color.lightGray);
-            changeBackGroundColor(row+1,chars[charn-1], Color.lightGray);
-//            changeBackGroundColor(row+1,chars[charn], Color.lightGray);
-            
-        } else if( charn == 5){
-            changeBackGroundColor(row,chars[charn+1], Color.lightGray);
-            changeBackGroundColor(row,chars[charn-1], Color.lightGray);
-            changeBackGroundColor(row+1,chars[charn], Color.lightGray);
-        }else if (charn<5){
-            changeBackGroundColor(row+1,chars[charn+1], Color.lightGray);
-            changeBackGroundColor(row,chars[charn-1], Color.lightGray);
-            changeBackGroundColor(row+1,chars[charn], Color.lightGray);
-        }else{
-            changeBackGroundColor(row,chars[charn+1], Color.lightGray);
-            changeBackGroundColor(row+1,chars[charn-1], Color.lightGray);
-            changeBackGroundColor(row+1,chars[charn], Color.lightGray);
+        if(charn == 0){
+            if (board.get(""+(row+1)+chars[charn+1]).getPiece() != null){
+                changeBackGroundColor(row+1,chars[charn+1], Color.darkGray);
             }
+            if (board.get(""+(row+1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row+1,chars[charn], Color.lightGray);
+            }
+        } else if (charn==10) {
+            if (board.get(""+(row+1)+chars[charn-1]).getPiece() != null){
+                changeBackGroundColor(row,chars[charn+1], Color.darkGray);
+            }
+            if (board.get(""+(row+1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row+1,chars[charn], Color.lightGray);
+            }
+        } else if( charn == 5){
+            if (board.get(""+(row)+chars[charn+1]).getPiece() != null){
+                if (board.get(""+(row+1)+chars[charn]).getPiece() == null){
+                    changeBackGroundColor(row+1,chars[charn], Color.lightGray);
+                }            }
+            if (board.get(""+(row)+chars[charn-1]).getPiece() != null){
+                changeBackGroundColor(row,chars[charn-1], Color.darkGray);
+            }
+            if (board.get(""+(row+1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row+1,chars[charn], Color.lightGray);
+            }
+        }else if (charn<5){
+            if (board.get(""+(row+1)+chars[charn+1]).getPiece() != null){
+                changeBackGroundColor(row+1,chars[charn+1], Color.darkGray);
+            }
+            if (board.get(""+(row)+chars[charn-1]).getPiece() != null){
+                changeBackGroundColor(row,chars[charn-1], Color.darkGray);
+            }
+            if (board.get(""+(row+1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row+1,chars[charn], Color.lightGray);
+            }
+        }else{
+            if (board.get(""+(row)+chars[charn+1]).getPiece() != null){
+                changeBackGroundColor(row,chars[charn+1], Color.darkGray);
+            }
+            if (board.get(""+(row+1)+chars[charn-1]).getPiece() != null){
+                changeBackGroundColor(row+1,chars[charn-1], Color.darkGray);
+            }
+            if (board.get(""+(row+1)+chars[charn]).getPiece() == null){
+                changeBackGroundColor(row+1,chars[charn], Color.lightGray);
+            }
+        }
         turn ++;
     }
 
@@ -927,25 +980,13 @@ public class Rules {
             if (sCell.getTcolor()!= cell.getTcolor()){
                 cell.setBcolor(color);
                 app.changeBackGround(row, col, color);
-                if(cell.getPiece()!=null){
+                if(cell.getPiece()!=null && (!Objects.equals(sCell.getPiece(), BLACK_PAWN) && !Objects.equals(sCell.getPiece(), WHITE_PAWN))) {
                     cell.setBcolor(Color.DARK_GRAY);
                     app.changeBackGround(row, col, Color.DARK_GRAY);
                 }
             }
         }catch (Exception e){}
     }
-    /*private void movementChange(int rchange, int cchange){
-        Cell cell;
-        try{
-            cell = board.get(""+(row+rchange)+chars[charn+cchange]);
-            if(cell.getPiece()==null){
-                changeBackGroundColor(row+rchange, chars[charn+cchange], Color.LIGHT_GRAY);
-            }else if(cell.getPiece()!=null){
-                changeBackGroundColor(row+rchange, chars[charn+cchange], Color.DARK_GRAY);
-                break;
-            }
-        }catch (Exception e){
-        }
-    }*/
+
 }
 
