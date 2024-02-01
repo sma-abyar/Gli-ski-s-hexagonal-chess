@@ -154,7 +154,17 @@ public class Rules {
     }
 
     private void Rock() {
-        StraightMove();
+        Cell cell = board.get(""+row+col);
+//        StraightMove();
+        int[][] hamsade = new int[6][2];
+        if(charn>5){
+            hamsade = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
+        }else if (charn==5){
+            hamsade = new int[][]{{0,1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
+        }else{
+            hamsade = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {-1, -1}, {-1, 0}};
+        }
+        test1(cell, hamsade);
     }
 
     private void Bishop() {
@@ -279,6 +289,33 @@ public class Rules {
     private void StraightMove() {
 
     }
+    private void test1(Cell cell, int[][] arr){
+        String piece = cell.getPiece();
+        boolean reverse = false;
+        for (int[] next: arr){
+            test2(cell, next, reverse);
+        }
+    }
+    private void test2(Cell cell, int[] arr, boolean reverse){
+        int row = cell.getRow();
+        int column = charnum.indexOf(cell.getColumn());
+        if (column == 5 && reverse){
+            arr[1]--;
+        }
+        row += arr[1];
+        column += arr[0];
+        try{
+            changeBackGroundColor(row, chars[column], Color.lightGray);
+            Cell newCell = board.get(""+row+chars[column]);
+            if(newCell.getPiece()!=null){
+                return;
+            }
+            reverse = true;
+            test2(newCell, arr, reverse);
+        }catch (Exception e){
+
+        }
+    }
 
     private void ObliqueMove() {
     }
@@ -319,5 +356,8 @@ public class Rules {
             }
         } catch (Exception e) {
         }
+    }
+    private void testChangeColor(Cell cell){
+
     }
 }

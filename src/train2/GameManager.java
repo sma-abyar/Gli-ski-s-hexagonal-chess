@@ -98,7 +98,7 @@ public class GameManager {
         this.column = column;
         try{
             sCell = bBoard.get(""+row+column);
-            if (turnDetect(sCell)){
+//            if (turnDetect(sCell)){
                 if (lBColor == Color.GREEN){
                     if (sCell.getTcolor() != lcell.getTcolor()){
                         if(sCell.getBcolor() == Color.darkGray){
@@ -118,7 +118,7 @@ public class GameManager {
                     ClearBackGrounds();
                     changeBackgroundColor(sCell, row, column, Color.BLUE);
                 }
-            }
+//            }
         }catch (Exception e){
 
         }
