@@ -165,17 +165,22 @@ public class Rules {
         rockMove(cell, hamsade);
     }
 
+    int[][] hamsadeR;
+    int[][] hamsadeC;
+    int[][] hamsadeL;
+
     private void Bishop() {
         Cell cell = board.get("" + row + col);
-        int[][] hamsade;
         if (charn > 5) {
-            hamsade = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
+            hamsadeR = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
+            bishopMove(cell, hamsadeR);
         } else if (charn == 5) {
-            hamsade = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
+            hamsadeC = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
+            bishopMove(cell, hamsadeC);
         } else {
-            hamsade = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
+            hamsadeL = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
+            bishopMove(cell, hamsadeL);
         }
-        bishopMove(cell, hamsade);
     }
 
     private void Queen() {
@@ -318,23 +323,31 @@ public class Rules {
         }
     }
 
+    int[][] temp;
 
     private void bishopMove(Cell cell, int[][] arr) {
         boolean recursive = false;
+        int i = 0;
+        temp = arr;
         for (int[] next : arr) {
-            bishopMoveRecursive(cell, next, recursive);
+            i++;
+            bishopMoveRecursive(cell, next, recursive, i);
         }
     }
 
-    private void bishopMoveRecursive(Cell cell, int[] arr, boolean recursive) {
+    private void bishopMoveRecursive(Cell cell, int[] arr, boolean recursive, int index) {
         int row = cell.getRow();
         int column = charnum.indexOf(cell.getColumn());
-        if ((column >= 4 && column <= 6) ) {
-            System.out.println(column);
-            arr[1] -= 2;
+        if (column == 5 && recursive) {
+            arr[1] = hamsadeC[index][1];
+            arr[0] = hamsadeC[index][0];
+            System.out.println(arr[0] + " " + arr[1]);
+//            arr[1] -= 2;
+        } else {
+            System.out.println(column + arr[0]);
         }
         row += arr[1];
-        column += arr[0];
+        column = column + arr[0];
         try {
             changeBackGroundColor(row, chars[column], Color.lightGray);
             Cell newCell = board.get("" + row + chars[column]);
