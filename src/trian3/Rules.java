@@ -172,7 +172,6 @@ public class Rules {
     }
 
     private void Queen() {
-        StraightMove();
         ObliqueMove();
     }
 
@@ -284,13 +283,7 @@ public class Rules {
         }
 
     }
-
-
-    private void StraightMove() {
-
-    }
     private void test1(Cell cell, int[][] arr){
-        String piece = cell.getPiece();
         boolean reverse = false;
         for (int[] next: arr){
             test2(cell, next, reverse);
@@ -299,7 +292,7 @@ public class Rules {
     private void test2(Cell cell, int[] arr, boolean reverse){
         int row = cell.getRow();
         int column = charnum.indexOf(cell.getColumn());
-        if (column == 5 && reverse){
+        if (column == 5 && reverse && arr[0]!=0){
             arr[1]--;
         }
         row += arr[1];
@@ -322,7 +315,6 @@ public class Rules {
 
     private void mObliqueMove() {
         Cell cell;
-        StraightMove();
         for (int i = 0; i < 11; i++) {
             Cell cell1;
             Cell cell2;
