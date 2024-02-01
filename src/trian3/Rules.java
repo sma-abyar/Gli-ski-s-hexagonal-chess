@@ -291,16 +291,16 @@ public class Rules {
     }
 
     private void rockMove(Cell cell, int[][] arr) {
-        boolean reverse = false;
+        boolean recursive = false;
         for (int[] next : arr) {
-            rockMoveRecersive(cell, next, reverse);
+            rockMoveRecursive(cell, next, recursive);
         }
     }
 
-    private void rockMoveRecersive(Cell cell, int[] arr, boolean reverse) {
+    private void rockMoveRecursive(Cell cell, int[] arr, boolean recursive) {
         int row = cell.getRow();
         int column = charnum.indexOf(cell.getColumn());
-        if (column == 5 && reverse && arr[0] != 0) {
+        if (column == 5 && recursive && arr[0] != 0) {
             arr[1]--;
         }
         row += arr[1];
@@ -311,8 +311,8 @@ public class Rules {
             if (newCell.getPiece() != null) {
                 return;
             }
-            reverse = true;
-            rockMoveRecersive(newCell, arr, reverse);
+            recursive = true;
+            rockMoveRecursive(newCell, arr, recursive);
         } catch (Exception e) {
 
         }
@@ -320,16 +320,17 @@ public class Rules {
 
 
     private void bishopMove(Cell cell, int[][] arr) {
-        boolean reverse = false;
+        boolean recursive = false;
         for (int[] next : arr) {
-            bishopMoveRecersive(cell, next, reverse);
+            bishopMoveRecursive(cell, next, recursive);
         }
     }
 
-    private void bishopMoveRecersive(Cell cell, int[] arr, boolean reverse) {
+    private void bishopMoveRecursive(Cell cell, int[] arr, boolean recursive) {
         int row = cell.getRow();
         int column = charnum.indexOf(cell.getColumn());
-        if (column == 5 && reverse) {
+        if ((column >= 4 && column <= 6) ) {
+            System.out.println(column);
             arr[1] -= 2;
         }
         row += arr[1];
@@ -340,8 +341,8 @@ public class Rules {
             if (newCell.getPiece() != null) {
                 return;
             }
-            reverse = true;
-            rockMoveRecersive(newCell, arr, reverse);
+            recursive = true;
+            rockMoveRecursive(newCell, arr, recursive);
         } catch (Exception e) {
 
         }
