@@ -16,7 +16,7 @@ public class Cell {
     private Color tcolor;
     private int row;
     private char column;
-    private int round = 0;
+    private int round = 2;
 
     public Color getBcolor() {
         return bcolor;

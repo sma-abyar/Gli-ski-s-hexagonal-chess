@@ -137,6 +137,8 @@ public class GameManager {
             bBoard.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
             app.setCellProperties(pack.brow[i], pack.bcol[i], pack.bpiece[i], null, Color.BLACK);
             bBoard.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
+            bBoard.get("" + pack.wrow[i] + pack.wcol[i]).setRound(1);
+            bBoard.get("" + pack.brow[i] + pack.bcol[i]).setRound(1);
         }
 
     }

@@ -52,6 +52,11 @@ public class Rules {
     }
 
     private void blackPawn() {
+        if (sCell.getRound() == 1) {
+            if (board.get("" + (row - 2) + chars[charn]).getPiece() == null) {
+                changeBackGroundColor(row - 2, chars[charn], Color.lightGray);
+            }
+        }
         if (charn == 0) {
             if (board.get("" + (row) + chars[charn + 1]).getPiece() != null) {
                 changeBackGroundColor(row, chars[charn + 1], Color.darkGray);
@@ -101,6 +106,11 @@ public class Rules {
     }
 
     private void whitePawn() {
+        if (sCell.getRound() == 1) {
+            if (board.get("" + (row + 2) + chars[charn]).getPiece() == null) {
+                changeBackGroundColor(row + 2, chars[charn], Color.lightGray);
+            }
+        }
         if (charn == 0) {
             if (board.get("" + (row + 1) + chars[charn + 1]).getPiece() != null) {
                 changeBackGroundColor(row + 1, chars[charn + 1], Color.darkGray);
