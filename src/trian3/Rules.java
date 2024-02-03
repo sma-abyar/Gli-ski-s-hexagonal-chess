@@ -70,7 +70,6 @@ public class Rules {
             if (board.get("" + (row - 1) + chars[charn + 1]).getPiece() != null) {
                 changeBackGroundColor(row - 1, chars[charn + 1], Color.darkGray);
             }
-
             if (board.get("" + (row - 1) + chars[charn - 1]).getPiece() != null) {
                 changeBackGroundColor(row - 1, chars[charn - 1], Color.darkGray);
             }
@@ -118,15 +117,13 @@ public class Rules {
             }
         } else if (charn == 5) {
             if (board.get("" + (row) + chars[charn + 1]).getPiece() != null) {
-                if (board.get("" + (row + 1) + chars[charn]).getPiece() == null) {
-                    changeBackGroundColor(row + 1, chars[charn], Color.lightGray);
-                }
+                changeBackGroundColor(row, chars[charn + 1], Color.darkGray);
             }
-            if (board.get("" + (row) + chars[charn - 1]).getPiece() != null) {
+            if (board.get("" + row + chars[charn - 1]).getPiece() != null) {
                 changeBackGroundColor(row, chars[charn - 1], Color.darkGray);
             }
-            if (board.get("" + (row + 1) + chars[charn]).getPiece() == null) {
-                changeBackGroundColor(row + 1, chars[charn], Color.lightGray);
+            if (board.get("" + (row+1) + chars[charn]).getPiece() == null) {
+                changeBackGroundColor(row+1, chars[charn], Color.lightGray);
             }
         } else if (charn < 5) {
             if (board.get("" + (row + 1) + chars[charn + 1]).getPiece() != null) {
@@ -184,125 +181,52 @@ public class Rules {
     }
 
     private void Queen() {
+        Rock();
+        Bishop();
     }
 
     private void King() {
-        whitePawn();
-        blackPawn();
-        Cell cell;
-        if (charn == 5) {
-            try {
-                cell = board.get("" + (row - 1) + chars[charn + 2]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row - 1, chars[charn + 2], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row - 1, chars[charn + 2], Color.darkGray);
-                }
-                cell = board.get("" + (row - 1) + chars[charn - 2]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row - 1, chars[charn - 2], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row - 1, chars[charn - 2], Color.darkGray);
-                }
-                cell = board.get("" + (row + 1) + chars[charn + 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row + 1, chars[charn + 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row + 1, chars[charn + 1], Color.darkGray);
-                }
-                cell = board.get("" + (row + 1) + chars[charn - 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row + 1, chars[charn - 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row + 1, chars[charn - 1], Color.darkGray);
-                }
-                cell = board.get("" + (row - 2) + chars[charn + 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row - 2, chars[charn + 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row - 2, chars[charn + 1], Color.darkGray);
-                }
-                cell = board.get("" + (row - 2) + chars[charn - 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row - 2, chars[charn - 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row - 2, chars[charn - 1], Color.darkGray);
-                }
-            } catch (Exception e) {
-            }
+        Cell cell = board.get("" + row + col);
+        int[][] hamsade;
+        if (charn > 5) {
+            hamsade = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
+            hamsadeR = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
+            kingMove(cell, hamsadeR, "oblique");
+        } else if (charn == 5) {
+            hamsade = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
+            hamsadeC = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
+            kingMove(cell, hamsadeC, "oblique");
+        } else {
+            hamsade = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {-1, -1}, {-1, 0}};
+            hamsadeL = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
+            kingMove(cell, hamsadeL, "oblique");
         }
-        //سمت راست
-        else if (charn > 5) {
-            try {
-                cell = board.get("" + (row - 1) + chars[charn + 2]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row - 1, chars[charn + 2], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row - 1, chars[charn + 2], Color.darkGray);
-                }
-                cell = board.get("" + (row) + chars[charn - 2]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row, chars[charn - 2], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row, chars[charn - 2], Color.darkGray);
-                }
-                cell = board.get("" + (row + 1) + chars[charn + 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row + 1, chars[charn + 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row + 1, chars[charn + 1], Color.darkGray);
-                }
-                cell = board.get("" + (row + 1) + chars[charn - 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row + 1, chars[charn - 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row + 1, chars[charn - 1], Color.darkGray);
-                }
-                cell = board.get("" + (row - 2) + chars[charn + 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row - 2, chars[charn + 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row - 2, chars[charn + 1], Color.darkGray);
-                }
-                cell = board.get("" + (row - 1) + chars[charn - 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row - 1, chars[charn - 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row - 1, chars[charn - 1], Color.darkGray);
-                }
-                cell = board.get("" + (row + 2) + chars[charn - 1]);
-                if (cell.getPiece() == null) {
-                    changeBackGroundColor(row + 2, chars[charn - 1], Color.lightGray);
-                }
-                if (cell.getPiece() != null) {
-                    changeBackGroundColor(row + 2, chars[charn - 1], Color.darkGray);
-                }
-            } catch (Exception e) {
-            }
-        }
+        kingMove(cell, hamsade, "straight");
+    }
 
+    private void kingMove(Cell cell, int[][] arr, String kind) {
+        int i = 0;
+        boolean recursive = false;
+        if (kind.equals("oblique")) {
+            for (int[] next : arr) {
+                bishopMoveRecursive(cell, next, recursive, i, false);
+                i++;
+            }
+        } else if (kind.equals("straight")) {
+            for (int[] next : arr) {
+                rockMoveRecursive(cell, next, recursive, false);
+            }
+        }
     }
 
     private void rockMove(Cell cell, int[][] arr) {
         boolean recursive = false;
         for (int[] next : arr) {
-            rockMoveRecursive(cell, next, recursive);
+            rockMoveRecursive(cell, next, recursive, true);
         }
     }
 
-    private void rockMoveRecursive(Cell cell, int[] arr, boolean recursive) {
+    private void rockMoveRecursive(Cell cell, int[] arr, boolean recursive, boolean isContinue) {
         int row = cell.getRow();
         int column = charnum.indexOf(cell.getColumn());
         if (column == 5 && recursive && arr[0] != 0) {
@@ -317,68 +241,80 @@ public class Rules {
                 return;
             }
             recursive = true;
-            rockMoveRecursive(newCell, arr, recursive);
+            if (isContinue) {
+                rockMoveRecursive(newCell, arr, recursive, true);
+            }
         } catch (Exception e) {
 
         }
     }
 
-    int[][] temp;
-
     private void bishopMove(Cell cell, int[][] arr) {
         boolean recursive = false;
         int i = 0;
-        temp = arr;
         for (int[] next : arr) {
+            bishopMoveRecursive(cell, next, recursive, i, true);
             i++;
-            bishopMoveRecursive(cell, next, recursive, i);
         }
     }
 
-    private void bishopMoveRecursive(Cell cell, int[] arr, boolean recursive, int index) {
-        int row = cell.getRow();
-        int column = charnum.indexOf(cell.getColumn());
-        if (column == 5 && recursive) {
-            arr[1] = hamsadeC[index][1];
-            arr[0] = hamsadeC[index][0];
-            System.out.println(arr[0] + " " + arr[1]);
-//            arr[1] -= 2;
-        } else {
-            System.out.println(column + arr[0]);
-        }
-        row += arr[1];
-        column = column + arr[0];
+    boolean corrected = false;
+
+    private void bishopMoveRecursive(Cell cell, int[] arr, boolean recursive, int index, boolean isContinue) {
         try {
+            int row = cell.getRow();
+            int column = charnum.indexOf(cell.getColumn());
+            if (column == 5 && recursive) {
+                arr[1] = hamsadeC[index][1];
+                arr[0] = hamsadeC[index][0];
+            }
+            if (charn == 6 && index == 4) {
+                column += arr[0];
+                changeBackGroundColor(row, chars[column], Color.lightGray);
+                Cell newCell = board.get("" + row + chars[column]);
+                arr[1] = hamsadeC[index][1];
+                arr[0] = hamsadeC[index][0];
+                charn = 8;
+                if (isContinue) {
+                    bishopMoveRecursive(newCell, arr, recursive, index, true);
+                }
+                return;
+            }
+            if (charn == 4 && index == 1) {
+                column += arr[0];
+                changeBackGroundColor(row, chars[column], Color.lightGray);
+                Cell newCell = board.get("" + row + chars[column]);
+                arr[1] = hamsadeC[index][1];
+                arr[0] = hamsadeC[index][0];
+                charn = 8;
+                if (isContinue) {
+                    bishopMoveRecursive(newCell, arr, recursive, index, true);
+                }
+                return;
+            }
+            if (((column == 6 && index == 4) || (column == 4 && index == 1)) && recursive && (charn % 2 == 0)) {
+                column += arr[0];
+                changeBackGroundColor(row, chars[column], Color.lightGray);
+                Cell newCell = board.get("" + row + chars[column]);
+                arr[1] = hamsadeC[index][1];
+                arr[0] = hamsadeC[index][0];
+                if (isContinue) {
+                    bishopMoveRecursive(newCell, arr, recursive, index, true);
+                }
+                return;
+            }
+            recursive = true;
+            row += arr[1];
+            column += arr[0];
             changeBackGroundColor(row, chars[column], Color.lightGray);
             Cell newCell = board.get("" + row + chars[column]);
             if (newCell.getPiece() != null) {
                 return;
             }
-            recursive = true;
-            rockMoveRecursive(newCell, arr, recursive);
-        } catch (Exception e) {
-
-        }
-    }
-
-    private void mObliqueMove() {
-        Cell cell;
-        for (int i = 0; i < 11; i++) {
-            Cell cell1;
-            Cell cell2;
-            int[] row = new int[3];
-            int[] col = new int[3];
-            try {
-                row[0] = rcolored[1][i];
-                row[1] = rcolored[2][i];
-                col[0] = ccolored[1][i];
-                col[1] = ccolored[2][i];
-                row[2] = (row[0] + row[1]) / 2;
-                col[2] = (col[0] + col[1]) / 2;
-                changeBackGroundColor(row[2], chars[col[2]], Color.lightGray);
-            } catch (Exception e) {
-                continue;
+            if (isContinue) {
+                bishopMoveRecursive(newCell, arr, recursive, index, true);
             }
+        } catch (Exception e) {
 
         }
     }
@@ -396,9 +332,5 @@ public class Rules {
             }
         } catch (Exception e) {
         }
-    }
-
-    private void testChangeColor(Cell cell) {
-
     }
 }

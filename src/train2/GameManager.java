@@ -18,6 +18,7 @@ public class GameManager {
         this.pack = pack;
 
     }
+
     protected int row;
     protected char column;
     public Application app;
@@ -26,7 +27,7 @@ public class GameManager {
     private Cell lcell;
     protected Rules rules = new Rules();
     StringColor[] removed = new StringColor[0];
-    int lastRemovedItem =0;
+    int lastRemovedItem = 0;
     Map<String, Cell> bBoard = new HashMap<>();
     int lrow;
     char lcol;
@@ -34,10 +35,10 @@ public class GameManager {
     public List<Character> col = new ArrayList<>();
     char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l'};
     String charnum = "abcdefghikl";
-    String  turn = "White";
+    String turn = "White";
 
 
-    private void Move(Cell lcell, Cell ncell){
+    private void Move(Cell lcell, Cell ncell) {
         ncell.setPiece(lcell.getPiece());
         ncell.setTcolor(lcell.getTcolor());
         lcell.setPiece(null);
@@ -47,44 +48,39 @@ public class GameManager {
         app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
         lBColor = null;
         ClearBackGrounds();
+        turnDetect();
     }
-    public boolean turnDetect(Cell cell){
-        app.setMessage( turn+"'s Turn");
 
-        if (turn.equals("White") && lcell.getTcolor().equals(Color.white)){
-//             turn = "Black";
-             return true;
-        }else if(turn.equals("Black") && lcell.getTcolor().equals(Color.black)){
-//             turn = "White";
-             return true;
-        }else{
-            return false;
+    public void turnDetect() {
+        if (turn.equals("White")) {
+            turn = "Black";
+        } else if (turn.equals("Black")) {
+            turn = "White";
         }
+        app.setMessage(turn + "'s Turn");
     }
-    private void removePiece(Cell cell){
-        StringColor[] temp = new StringColor[removed.length+1];
-        for(int i = 0; i< removed.length-1; i++){
+
+    private void removePiece(Cell cell) {
+        StringColor[] temp = new StringColor[removed.length + 1];
+        for (int i = 0; i < removed.length; i++) {
             temp[i] = removed[i];
         }
-        if(cell.getTcolor()==Color.BLACK){
-            temp[lastRemovedItem] = new StringColor(cell.getPiece(), StringColor.BLACK);
-        }else{
-            temp[lastRemovedItem] = new StringColor(cell.getPiece(), StringColor.WHITE);
+        if (cell.getTcolor() == Color.BLACK) {
+            temp[temp.length - 1] = new StringColor(cell.getPiece(), StringColor.BLACK);
+        } else {
+            temp[temp.length - 1] = new StringColor(cell.getPiece(), StringColor.WHITE);
         }
         lastRemovedItem++;
-        removed = new StringColor[temp.length];
-        for(int i = 0; i< removed.length; i++){
-            removed[i] = temp[i];
-        }
-        try{
-            app.setRemovedPieces(new StringColor[]{
-                new StringColor(cell.getPiece(), StringColor.BLACK)
-            });
-        }catch (Exception e){
+//        removed = new StringColor[temp.length];
+        removed = temp;
+        try {
+            app.setRemovedPieces(removed);
+        } catch (Exception e) {
         }
     }
-    private void changeBackgroundColor(Cell cell, int row, char col, Color color){
-        if ((row != lrow) || (col != lcol)){
+
+    private void changeBackgroundColor(Cell cell, int row, char col, Color color) {
+        if ((row != lrow) || (col != lcol)) {
             app.changeBackGround(lrow, lcol, null);
         }
         app.changeBackGround(row, col, color);
@@ -93,64 +89,71 @@ public class GameManager {
         lcell = cell;
         lBColor = color;
     }
-    public void clicked(int row, char column){
+
+    public void clicked(int row, char column) {
         this.row = row;
         this.column = column;
-        try{
-            sCell = bBoard.get(""+row+column);
-//            if (turnDetect(sCell)){
-                if (lBColor == Color.GREEN){
-                    if (sCell.getTcolor() != lcell.getTcolor()){
-                        if(sCell.getBcolor() == Color.darkGray){
-                            removePiece(sCell);
-                            Move(lcell,sCell);
-                        }
-                        if(sCell.getBcolor() == Color.lightGray){
-                            Move(lcell, sCell);
-                        }
+        try {
+            sCell = bBoard.get("" + row + column);
+            if (lBColor == Color.GREEN) {
+                if (sCell.getTcolor() != lcell.getTcolor()) {
+                    if (sCell.getBcolor() == Color.darkGray) {
+                        removePiece(sCell);
+                        Move(lcell, sCell);
                     }
-                }if (sCell.getTcolor() != null && (lBColor == Color.BLUE)){
-                    ClearBackGrounds();
+                    if (sCell.getBcolor() == Color.lightGray) {
+                        Move(lcell, sCell);
+                    }
+                }
+            }
+            if (sCell.getTcolor() != null && (lBColor == Color.BLUE)) {
+                ClearBackGrounds();
+                if((sCell.getTcolor() == Color.white && turn.equals("White")) || ((sCell.getTcolor() == Color.black && turn.equals("Black")))){
                     changeBackgroundColor(sCell, row, column, Color.GREEN);
                     test(sCell);
-                    System.out.println(row+""+column+sCell.getPiece());
-                }else{
-                    ClearBackGrounds();
-                    changeBackgroundColor(sCell, row, column, Color.BLUE);
+                    System.out.println(row + "" + column + sCell.getPiece());
                 }
-//            }
-        }catch (Exception e){
+            } else {
+                ClearBackGrounds();
+                changeBackgroundColor(sCell, row, column, Color.BLUE);
+            }
+        } catch (Exception e) {
 
         }
     }
-    public void arrangeBoard(){
-        for(char c : chars){
+
+    public void arrangeBoard() {
+        app.setMessage(turn + "'s Turn");
+        for (char c : chars) {
             col.add(c);
-            for (int i = 0; i<11; i++){
-                try{
-                    bBoard.put(""+i+c, new Cell(null, null, null, i, c));
-                }catch (Exception e){
+            for (int i = 0; i < 11; i++) {
+                try {
+                    bBoard.put("" + i + c, new Cell(null, null, null, i, c));
+                } catch (Exception e) {
 
                 }
             }
-        }for(int i =0; i<pack.num; i++){
+        }
+        for (int i = 0; i < pack.num; i++) {
             app.setCellProperties(pack.wrow[i], pack.wcol[i], pack.wpiece[i], null, Color.WHITE);
-            bBoard.put(""+pack.wrow[i]+pack.wcol[i],new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
+            bBoard.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
             app.setCellProperties(pack.brow[i], pack.bcol[i], pack.bpiece[i], null, Color.BLACK);
-            bBoard.put(""+pack.brow[i]+pack.bcol[i],new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
+            bBoard.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
         }
 
     }
-    public void test(Cell cell){
+
+    public void test(Cell cell) {
         rules.Movement(this, cell);
     }
-    public void ClearBackGrounds(){
-        for (char c: chars){
-            for (int i=1; i<=11; i++){
-                try{
-                    app.changeBackGround(i,c,null);
-                    bBoard.get(""+i+c).setBcolor(null);
-                }catch (Exception e){
+
+    public void ClearBackGrounds() {
+        for (char c : chars) {
+            for (int i = 1; i <= 11; i++) {
+                try {
+                    app.changeBackGround(i, c, null);
+                    bBoard.get("" + i + c).setBcolor(null);
+                } catch (Exception e) {
                 }
             }
         }
