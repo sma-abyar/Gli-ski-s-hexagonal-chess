@@ -108,7 +108,7 @@ public class GameManager {
             }
             if (sCell.getTcolor() != null && (lBColor == Color.BLUE)) {
                 ClearBackGrounds();
-                if((sCell.getTcolor() == Color.white && turn.equals("White")) || ((sCell.getTcolor() == Color.black && turn.equals("Black")))){
+                if ((sCell.getTcolor() == Color.white && turn.equals("White")) || ((sCell.getTcolor() == Color.black && turn.equals("Black")))) {
                     changeBackgroundColor(sCell, row, column, Color.GREEN);
                     test(sCell);
                     System.out.println(row + "" + column + sCell.getPiece());

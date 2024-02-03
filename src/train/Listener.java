@@ -17,7 +17,7 @@ public class Listener implements EventListener {
     }
 
     public void onClick(int row, char col) {
-        game.clicked(row,col);
+        game.clicked(row, col);
     }
 
     @Override

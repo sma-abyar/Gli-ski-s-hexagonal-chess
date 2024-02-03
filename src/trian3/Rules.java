@@ -122,8 +122,8 @@ public class Rules {
             if (board.get("" + row + chars[charn - 1]).getPiece() != null) {
                 changeBackGroundColor(row, chars[charn - 1], Color.darkGray);
             }
-            if (board.get("" + (row+1) + chars[charn]).getPiece() == null) {
-                changeBackGroundColor(row+1, chars[charn], Color.lightGray);
+            if (board.get("" + (row + 1) + chars[charn]).getPiece() == null) {
+                changeBackGroundColor(row + 1, chars[charn], Color.lightGray);
             }
         } else if (charn < 5) {
             if (board.get("" + (row + 1) + chars[charn + 1]).getPiece() != null) {
