@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class GameManager {
     public GameManager(Application app, PiecePack pack) {
@@ -71,7 +70,6 @@ public class GameManager {
             temp[temp.length - 1] = new StringColor(cell.getPiece(), StringColor.WHITE);
         }
         lastRemovedItem++;
-//        removed = new StringColor[temp.length];
         removed = temp;
         try {
             app.setRemovedPieces(removed);
@@ -110,7 +108,7 @@ public class GameManager {
                 ClearBackGrounds();
                 if ((sCell.getTcolor() == Color.white && turn.equals("White")) || ((sCell.getTcolor() == Color.black && turn.equals("Black")))) {
                     changeBackgroundColor(sCell, row, column, Color.GREEN);
-                    test(sCell);
+                    checkRule(sCell);
                     System.out.println(row + "" + column + sCell.getPiece());
                 }
             } else {
@@ -143,7 +141,7 @@ public class GameManager {
 
     }
 
-    public void test(Cell cell) {
+    public void checkRule(Cell cell) {
         rules.Movement(this, cell);
     }
 
