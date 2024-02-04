@@ -51,6 +51,12 @@ public class Rules {
         }
     }
 
+    private void Rock(){
+        direct_movement(false);
+    }
+    private void Bishop(){
+        oblique_movement(false);
+    }
     private void blackPawn() {
         if (sCell.getRound() == 1) {
             if (board.get("" + (row - 2) + chars[charn]).getPiece() == null) {
@@ -159,171 +165,104 @@ public class Rules {
         round++;
     }
 
-    private void Rock() {
+    private void direct_movement(boolean limited) {
         Cell cell = board.get("" + row + col);
-        int[][] hamsade;
+
+        int[][] changes_rate_array;
         if (charn > 5) {
-            hamsade = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
+            changes_rate_array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, 0 }, { -1, 1 } };
         } else if (charn == 5) {
-            hamsade = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
+            changes_rate_array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
         } else {
-            hamsade = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {-1, -1}, {-1, 0}};
+            changes_rate_array = new int[][] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
         }
-        rockMove(cell, hamsade);
+
+        for (int[] cell_change_rate : changes_rate_array) {
+            recursive_direct_movement(cell, cell_change_rate, limited);
+        }
     }
 
-    int[][] hamsadeR;
-    int[][] hamsadeC;
-    int[][] hamsadeL;
-
-    private void Bishop() {
+    private void oblique_movement(boolean limited) {
         Cell cell = board.get("" + row + col);
+        int[][] changes_rate_array;
+
         if (charn > 5) {
-            hamsadeR = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
-            bishopMove(cell, hamsadeR);
+            changes_rate_array = new int[][] { { 1, 1 }, { 2, -1 }, { 1, -2 }, { -1, -1 }, { -2, 1 }, { -1, 2 } };
         } else if (charn == 5) {
-            hamsadeC = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
-            bishopMove(cell, hamsadeC);
+            changes_rate_array = new int[][] { { 1, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 }, { -2, -1 }, { -1, 1 } };
         } else {
-            hamsadeL = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
-            bishopMove(cell, hamsadeL);
+            changes_rate_array = new int[][] { { 1, 2 }, { 2, 1 }, { 1, -1 }, { -1, -2 }, { -2, -1 }, { -1, 1 } };
+        }
+
+        for (int[] cell_change_rate : changes_rate_array) {
+            recursive_oblique_movement(cell, cell_change_rate, limited);
         }
     }
 
     private void Queen() {
-        Rock();
-        Bishop();
+        direct_movement(false);
+        oblique_movement(false);
     }
 
     private void King() {
-        Cell cell = board.get("" + row + col);
-        int[][] hamsade;
-        if (charn > 5) {
-            hamsade = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
-            hamsadeR = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
-            kingMove(cell, hamsadeR, "oblique");
-        } else if (charn == 5) {
-            hamsade = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
-            hamsadeC = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
-            kingMove(cell, hamsadeC, "oblique");
-        } else {
-            hamsade = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {-1, -1}, {-1, 0}};
-            hamsadeL = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
-            kingMove(cell, hamsadeL, "oblique");
-        }
-        kingMove(cell, hamsade, "straight");
+        oblique_movement(true);
+        direct_movement(true);
     }
 
-    private void kingMove(Cell cell, int[][] arr, String kind) {
-        int i = 0;
-        boolean recursive = false;
-        if (kind.equals("oblique")) {
-            for (int[] next : arr) {
-                bishopMoveRecursive(cell, next, recursive, i, false);
-                i++;
-            }
-        } else if (kind.equals("straight")) {
-            for (int[] next : arr) {
-                rockMoveRecursive(cell, next, recursive, false);
-            }
-        }
-    }
-
-    private void rockMove(Cell cell, int[][] arr) {
-        boolean recursive = false;
-        for (int[] next : arr) {
-            rockMoveRecursive(cell, next, recursive, true);
-        }
-    }
-
-    private void rockMoveRecursive(Cell cell, int[] arr, boolean recursive, boolean isContinue) {
+    private void recursive_direct_movement(Cell cell, int[] cell_change_rate, boolean limited) {
         int row = cell.getRow();
         int column = charnum.indexOf(cell.getColumn());
-        if (column == 5 && recursive && arr[0] != 0) {
-            arr[1]--;
+        int newRow = row + cell_change_rate[1];
+        int newColumn = column + cell_change_rate[0];
+
+        if (newColumn == 5 && cell_change_rate[0] != 0) {
+            cell_change_rate[1]--;
         }
-        row += arr[1];
-        column += arr[0];
+
         try {
-            changeBackGroundColor(row, chars[column], Color.lightGray);
-            Cell newCell = board.get("" + row + chars[column]);
-            if (newCell.getPiece() != null) {
+            changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
+            Cell newCell = board.get("" + newRow + chars[newColumn]);
+            if (newCell.getPiece() != null || limited) {
                 return;
             }
-            recursive = true;
-            if (isContinue) {
-                rockMoveRecursive(newCell, arr, recursive, true);
-            }
+
+            recursive_direct_movement(newCell, cell_change_rate, limited);
         } catch (Exception e) {
 
         }
     }
 
-    private void bishopMove(Cell cell, int[][] arr) {
-        boolean recursive = false;
-        int i = 0;
-        for (int[] next : arr) {
-            bishopMoveRecursive(cell, next, recursive, i, true);
-            i++;
+    private void recursive_oblique_movement(Cell cell, int[] cell_change_rate, boolean limited) {
+        int row = cell.getRow();
+        int column = charnum.indexOf(cell.getColumn());
+        int newRow = row + cell_change_rate[1];
+        int newColumn = column + cell_change_rate[0];
+
+        if (newColumn == 5 && (cell_change_rate[1] == 2 || cell_change_rate[1] == -1)) {
+            cell_change_rate[1]--;
+
+        } else if (cell_change_rate[0] == 2 || cell_change_rate[0] == -2) {
+
+            if (newColumn == 5) {
+                cell_change_rate[1] -= 2;
+            } else if (newColumn == 4 || newColumn == 6) {
+                cell_change_rate[1] = 0;
+                if (column == 4 || column == 6) {
+                    newRow = row;
+                }
+                if ((column < 5 && newColumn > 5) || column > 5 && newColumn < 5) {
+                    cell_change_rate[1] = -1;
+                }
+            }
         }
-    }
 
-    boolean corrected = false;
-
-    private void bishopMoveRecursive(Cell cell, int[] arr, boolean recursive, int index, boolean isContinue) {
         try {
-            int row = cell.getRow();
-            int column = charnum.indexOf(cell.getColumn());
-            if (column == 5 && recursive) {
-                arr[1] = hamsadeC[index][1];
-                arr[0] = hamsadeC[index][0];
-            }
-            if (charn == 6 && index == 4) {
-                column += arr[0];
-                changeBackGroundColor(row, chars[column], Color.lightGray);
-                Cell newCell = board.get("" + row + chars[column]);
-                arr[1] = hamsadeC[index][1];
-                arr[0] = hamsadeC[index][0];
-                charn = 8;
-                if (isContinue) {
-                    bishopMoveRecursive(newCell, arr, recursive, index, true);
-                }
+            changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
+            Cell newCell = board.get("" + newRow + chars[newColumn]);
+            if (newCell.getPiece() != null || limited) {
                 return;
             }
-            if (charn == 4 && index == 1) {
-                column += arr[0];
-                changeBackGroundColor(row, chars[column], Color.lightGray);
-                Cell newCell = board.get("" + row + chars[column]);
-                arr[1] = hamsadeC[index][1];
-                arr[0] = hamsadeC[index][0];
-                charn = 8;
-                if (isContinue) {
-                    bishopMoveRecursive(newCell, arr, recursive, index, true);
-                }
-                return;
-            }
-            if (((column == 6 && index == 4) || (column == 4 && index == 1)) && recursive && (charn % 2 == 0)) {
-                column += arr[0];
-                changeBackGroundColor(row, chars[column], Color.lightGray);
-                Cell newCell = board.get("" + row + chars[column]);
-                arr[1] = hamsadeC[index][1];
-                arr[0] = hamsadeC[index][0];
-                if (isContinue) {
-                    bishopMoveRecursive(newCell, arr, recursive, index, true);
-                }
-                return;
-            }
-            recursive = true;
-            row += arr[1];
-            column += arr[0];
-            changeBackGroundColor(row, chars[column], Color.lightGray);
-            Cell newCell = board.get("" + row + chars[column]);
-            if (newCell.getPiece() != null) {
-                return;
-            }
-            if (isContinue) {
-                bishopMoveRecursive(newCell, arr, recursive, index, true);
-            }
+            recursive_oblique_movement(newCell, cell_change_rate, limited);
         } catch (Exception e) {
 
         }
