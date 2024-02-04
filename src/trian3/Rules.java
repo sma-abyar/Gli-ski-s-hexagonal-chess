@@ -6,6 +6,7 @@ import train2.Cell;
 import train2.GameManager;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
@@ -24,6 +25,7 @@ public class Rules {
     int[][] rcolored;
     int[][] ccolored;
     Map<String, Cell> board;
+    List<String> knightTargets = new ArrayList<String>();
 
     public void Movement(GameManager board, Cell cell) {
         this.sCell = cell;
@@ -48,15 +50,19 @@ public class Rules {
             Queen();
         } else if (name.equals(PieceName.BLACK_KING) || name.equals(PieceName.WHITE_KING)) {
             King();
+        } else if (name.equals(PieceName.BLACK_KNIGHT) || name.equals(PieceName.WHITE_KNIGHT)) {
+            Knight();
         }
     }
 
-    private void Rock(){
+    private void Rock() {
         direct_movement(false);
     }
-    private void Bishop(){
+
+    private void Bishop() {
         oblique_movement(false);
     }
+
     private void blackPawn() {
         if (sCell.getRound() == 1) {
             if (board.get("" + (row - 2) + chars[charn]).getPiece() == null) {
@@ -167,14 +173,13 @@ public class Rules {
 
     private void direct_movement(boolean limited) {
         Cell cell = board.get("" + row + col);
-
         int[][] changes_rate_array;
         if (charn > 5) {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, 0 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
         } else if (charn == 5) {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
         } else {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {-1, -1}, {-1, 0}};
         }
 
         for (int[] cell_change_rate : changes_rate_array) {
@@ -187,11 +192,11 @@ public class Rules {
         int[][] changes_rate_array;
 
         if (charn > 5) {
-            changes_rate_array = new int[][] { { 1, 1 }, { 2, -1 }, { 1, -2 }, { -1, -1 }, { -2, 1 }, { -1, 2 } };
+            changes_rate_array = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
         } else if (charn == 5) {
-            changes_rate_array = new int[][] { { 1, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 }, { -2, -1 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
         } else {
-            changes_rate_array = new int[][] { { 1, 2 }, { 2, 1 }, { 1, -1 }, { -1, -2 }, { -2, -1 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
         }
 
         for (int[] cell_change_rate : changes_rate_array) {
@@ -207,6 +212,56 @@ public class Rules {
     private void King() {
         oblique_movement(true);
         direct_movement(true);
+    }
+
+    private void Knight() {
+        Cell cell = board.get("" + row + col);
+        int[][] changes_rate_array;
+        if (charn > 5) {
+            changes_rate_array = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
+        } else if (charn == 5) {
+            changes_rate_array = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
+        } else {
+            changes_rate_array = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
+        }
+        for (int[] cell_change_rate : changes_rate_array) {
+            KnightLv1(cell, changes_rate_array, cell_change_rate);
+        }
+
+    }
+
+    private void KnightLv1(Cell cell, int[][] changes_rate_array, int[] cell_change_rate) {
+        int row = cell.getRow();
+        int column = charnum.indexOf(cell.getColumn());
+        int newRow = row + cell_change_rate[1];
+        int newColumn = column + cell_change_rate[0];
+        if (newColumn == 5 && (cell_change_rate[1] == 2 || cell_change_rate[1] == -1)) {
+            cell_change_rate[1]--;
+
+        } else if (cell_change_rate[0] == 2 || cell_change_rate[0] == -2) {
+
+            if (newColumn == 5) {
+                cell_change_rate[1] -= 2;
+            } else if (newColumn == 4 || newColumn == 6) {
+                cell_change_rate[1] = 0;
+                if (column == 4 || column == 6) {
+                    newRow = row;
+                }
+                if ((column < 5 && newColumn > 5) || column > 5 && newColumn < 5) {
+                    cell_change_rate[1] = -1;
+                }
+            }
+        }
+
+        try {
+            changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
+            Cell newCell = board.get("" + newRow + chars[newColumn]);
+            if (newCell.getPiece() != null) {
+                return;
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     private void recursive_direct_movement(Cell cell, int[] cell_change_rate, boolean limited) {
@@ -267,8 +322,10 @@ public class Rules {
 
         }
     }
-
+    int i =0;
     private void changeBackGroundColor(int row, char col, Color color) {
+        i++;
+        System.out.println(i);
         try {
             Cell cell = board.get("" + row + col);
             if (sCell.getTcolor() != cell.getTcolor()) {
