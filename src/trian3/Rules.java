@@ -6,6 +6,7 @@ import train2.Cell;
 import train2.GameManager;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -214,6 +215,7 @@ public class Rules {
     }
 
     private void Knight() {
+        knightTarget = new HashMap<>();
         Cell cell = board.get("" + row + col);
         int[][] changes_rate_array;
         if (charn > 5) {
@@ -227,6 +229,7 @@ public class Rules {
             System.out.println(i++);
             KnightLv1(cell, cell_change_rate);
         }
+//        for ()
 
     }
 
@@ -254,7 +257,7 @@ public class Rules {
         }
 
         try {
-            changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
+//            changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
             Cell newCell = board.get("" + newRow + chars[newColumn]);
             KnightLv2(newCell);
             if (newCell.getPiece() != null) {
@@ -264,7 +267,8 @@ public class Rules {
 
         }
     }
-    private void KnightLv2(Cell cell){
+
+    private void KnightLv2(Cell cell) {
         int[][] changes_rate_array;
         if (charn > 5) {
             changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
@@ -278,8 +282,10 @@ public class Rules {
             addToTarget(cell, cell_change_rate);
         }
     }
-    int i =0;
-    private void addToTarget(Cell cell, int[] cell_change_rate){
+
+    int i = 0;
+
+    private void addToTarget(Cell cell, int[] cell_change_rate) {
         int row = cell.getRow();
         int column = charnum.indexOf(cell.getColumn());
         int newRow = row + cell_change_rate[1];
@@ -290,16 +296,15 @@ public class Rules {
         }
 
         try {
-            knightTarget.get("" + newRow + chars[newColumn]);
-            knightTarget.remove("" + newRow + chars[newColumn]);
-//            Cell newCell = board.get("" + newRow + chars[newColumn]);
-//            if (newCell.getPiece() != null) {
-//                return;
-//            }
+            System.out.println("" + (newRow) + (chars[newColumn]));
+            if (knightTarget.containsKey("" + newRow + chars[newColumn])) {
+                knightTarget.remove("" + newRow + chars[newColumn]);
+                changeBackGroundColor(newRow, chars[newColumn], null);
+            } else {
+                knightTarget.put("" + (newRow) + (chars[newColumn]), new Cell(null, null, null, newRow, chars[newColumn]));
+                changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
+            }
         } catch (Exception e) {
-            System.out.println("r");
-            knightTarget.put("" + newRow + chars[newColumn], new Cell (null, null, null, newRow, chars[newColumn]));
-            changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
         }
     }
 
@@ -361,6 +366,7 @@ public class Rules {
 
         }
     }
+
     private void changeBackGroundColor(int row, char col, Color color) {
         try {
             Cell cell = board.get("" + row + col);
