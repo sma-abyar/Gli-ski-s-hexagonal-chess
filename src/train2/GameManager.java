@@ -60,6 +60,7 @@ public class GameManager {
     }
 
     private void removePiece(Cell cell) {
+        cell.setRound(3);
         StringColor[] temp = new StringColor[removed.length + 1];
         for (int i = 0; i < removed.length; i++) {
             temp[i] = removed[i];
