@@ -214,6 +214,8 @@ public class Rules {
         direct_movement(true);
     }
 
+    int j = 0;
+
     private void Knight() {
         knightTarget.clear();
         Cell cell = board.get("" + row + col);
@@ -250,9 +252,14 @@ public class Rules {
         }
 
         for (Cell target_cell : knightTarget.values()) {
-            int target_row = target_cell.getRow();
-            int target_column = charnum.indexOf(target_cell.getColumn());
-            changeBackGroundColor(target_row, chars[target_column], Color.lightGray);
+            try {
+                int target_row = target_cell.getRow();
+                int target_column = charnum.indexOf(target_cell.getColumn());
+                changeBackGroundColor(target_row, chars[target_column], Color.lightGray);
+
+            } catch (Exception e) {
+
+            }
         }
     }
 
@@ -283,7 +290,7 @@ public class Rules {
         if ((newRow >= 1 && newRow <= 11) && (newColumn >= 0 && newColumn <= 10)) {
             Cell cell = board.get("" + newRow + chars[newColumn]);
             String key = "" + newRow + chars[newColumn];
-
+            System.out.println(key);
             try {
                 if (!knightTarget.containsKey(key)) {
                     knightTarget.put(key, cell);

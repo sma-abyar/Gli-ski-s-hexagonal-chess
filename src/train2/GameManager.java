@@ -52,7 +52,7 @@ public class GameManager {
 
     public void turnDetect() {
         if (turn.equals("White")) {
-            turn = "White";
+            turn = "Black";
         } else if (turn.equals("Black")) {
             turn = "White";
         }
