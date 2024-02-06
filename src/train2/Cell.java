@@ -57,6 +57,8 @@ public class Cell {
     public void setRound(int round) {
         this.round = round;
     }
-
+    public String getKey(){
+        return ""+row+column;
+    }
 
 }

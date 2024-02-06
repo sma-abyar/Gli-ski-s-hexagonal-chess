@@ -7,6 +7,7 @@ import train.PiecePack;
 import trian3.Rules;
 
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ public class GameManager {
         this.pack = pack;
         setKingLoc(0,"1g");
         setKingLoc(1, "10g");
+//        fileToMap();
 
     }
 
@@ -144,7 +146,7 @@ public class GameManager {
         app.setMessage(turn + "'s Turn");
         for (char c : chars) {
             col.add(c);
-            for (int i = 0; i < 11; i++) {
+            for (int i = 1; i <= 11; i++) {
                 try {
                     bBoard.put("" + i + c, new Cell(null, null, null, i, c));
                 } catch (Exception e) {
@@ -175,6 +177,7 @@ public class GameManager {
             app.changeBackGround(bBoard.get(kingLoc[0]).getRow(),bBoard.get(kingLoc[0]).getColumn(), Color.YELLOW);
         }else if(blackCheck){
             app.changeBackGround(bBoard.get(kingLoc[1]).getRow(),bBoard.get(kingLoc[1]).getColumn(), Color.YELLOW);
+            mapToFile();
         }
     }
 
@@ -245,4 +248,59 @@ public class GameManager {
     public void setKingLoc(int i,String location){
         this.kingLoc[i] = location;
     }
+    public void mapToFile(){
+        try {
+            FileWriter fileWriter = new FileWriter("hashmap.txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            for (Cell cell : bBoard.values()){
+                bufferedWriter.write(cell.getKey()+": "+cell.getRow()+", "+cell.getColumn()+", "+ cell.getPiece()+", "+ cell.getTcolor()+", "+cell.getRound());
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+            fileWriter.close();
+            System.out.println("Success!");
+        } catch (IOException e) {
+            System.out.println("Failed!");
+        }
+    }
+    public void fileToMap(){
+        try {
+            FileReader fileReader = new FileReader("hashmap.txt");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                // جدا کردن اطلاعات مختلف از هر خط
+                String[] parts = line.split(": ");
+                String key = parts[0];
+                String[] cellData = parts[1].split(", ");
+                int row = Integer.parseInt(cellData[0]);
+                char column = cellData[1].charAt(0);
+                String piece = cellData[2];
+                Color tcolor = Color.decode(cellData[3]);
+                int round = Integer.parseInt(cellData[4]);
+
+                // بازسازی Cell
+//                Cell cell = new Cell(row, column, piece, tcolor, round);
+                Cell cell = new Cell(null, piece, tcolor, row, column);
+
+                // اضافه کردن Cell به HashMap
+                bBoard.put(key, cell);
+            }
+
+            bufferedReader.close();
+            fileReader.close();
+            System.out.println("Success!");
+        } catch (IOException e) {
+            System.out.println("Failed!");
+            e.printStackTrace();
+        }
+
+        // اطلاعات بازگردانی شده از فایل
+        System.out.println("اطلاعات بازگردانی شده از فایل:");
+        for (Map.Entry<String, Cell> entry : bBoard.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Cell: " + entry.getValue());
+        }
+    }
 }
+
