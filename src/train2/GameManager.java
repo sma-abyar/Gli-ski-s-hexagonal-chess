@@ -61,6 +61,7 @@ public class GameManager {
         lBColor = null;
 //        isCheck();
         ClearBackGrounds();
+        changeCheckColor();
         turnDetect();
     }
 
@@ -131,6 +132,7 @@ public class GameManager {
             } else {
                 isCheck();
                 ClearBackGrounds();
+                changeCheckColor();
                 changeBackgroundColor(sCell, row, column, Color.BLUE);
             }
         } catch (Exception e) {
@@ -166,13 +168,24 @@ public class GameManager {
         whiteCheck();
         blackCheck();
     }
+    boolean whiteCheck = false;
+    boolean blackCheck = false;
+    private void changeCheckColor() {
+        if (whiteCheck){
+            app.changeBackGround(bBoard.get(kingLoc[0]).getRow(),bBoard.get(kingLoc[0]).getColumn(), Color.YELLOW);
+        }else if(blackCheck){
+            app.changeBackGround(bBoard.get(kingLoc[1]).getRow(),bBoard.get(kingLoc[1]).getColumn(), Color.YELLOW);
+        }
+    }
 
     private void whiteCheck() {
         for (Cell cell: blackPieces.values()){
             checkRule(cell);
             if (bBoard.get(kingLoc[0]).getBcolor()==Color.darkGray){
-                System.out.println("white check");
+                whiteCheck = true;
                 break;
+            }else {
+                whiteCheck = false;
             }
         }
     }
@@ -181,8 +194,9 @@ public class GameManager {
         for (Cell cell: whitePieces.values()){
             checkRule(cell);
             if (bBoard.get(kingLoc[1]).getBcolor()==Color.darkGray){
-                System.out.println("black check");
-                break;
+                blackCheck = true;
+            }else{
+                blackCheck = false;
             }
         }
     }
