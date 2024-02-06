@@ -175,11 +175,11 @@ public class Rules {
         Cell cell = board.get("" + row + col);
         int[][] changes_rate_array;
         if (charn > 5) {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, 0 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
         } else if (charn == 5) {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
         } else {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {-1, -1}, {-1, 0}};
         }
 
         for (int[] cell_change_rate : changes_rate_array) {
@@ -192,11 +192,11 @@ public class Rules {
         int[][] changes_rate_array;
 
         if (charn > 5) {
-            changes_rate_array = new int[][] { { 1, 1 }, { 2, -1 }, { 1, -2 }, { -1, -1 }, { -2, 1 }, { -1, 2 } };
+            changes_rate_array = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
         } else if (charn == 5) {
-            changes_rate_array = new int[][] { { 1, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 }, { -2, -1 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
         } else {
-            changes_rate_array = new int[][] { { 1, 2 }, { 2, 1 }, { 1, -1 }, { -1, -2 }, { -2, -1 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
         }
 
         for (int[] cell_change_rate : changes_rate_array) {
@@ -219,11 +219,11 @@ public class Rules {
         Cell cell = board.get("" + row + col);
         int[][] changes_rate_array;
         if (charn > 5) {
-            changes_rate_array = new int[][] { { 1, 1 }, { 2, -1 }, { 1, -2 }, { -1, -1 }, { -2, 1 }, { -1, 2 } };
+            changes_rate_array = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -1}, {-2, 1}, {-1, 2}};
         } else if (charn == 5) {
-            changes_rate_array = new int[][] { { 1, 1 }, { 2, -1 }, { 1, -2 }, { -1, -2 }, { -2, -1 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{1, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}, {-1, 1}};
         } else {
-            changes_rate_array = new int[][] { { 1, 2 }, { 2, 1 }, { 1, -1 }, { -1, -2 }, { -2, -1 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
         }
 
         for (int[] cell_change_rate : changes_rate_array) {
@@ -260,14 +260,14 @@ public class Rules {
         int[][] changes_rate_array;
 
         if (column > 5) {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 },
-                    { -1, 0 }, { -1, 1 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1},
+                    {-1, 0}, {-1, 1}};
         } else if (column == 5) {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 },
-                    { -1, -1 }, { -1, 0 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1},
+                    {-1, -1}, {-1, 0}};
         } else {
-            changes_rate_array = new int[][] { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, {
-                    -1, -1 }, { -1, 0 } };
+            changes_rate_array = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {
+                    -1, -1}, {-1, 0}};
         }
 
         for (int[] cell_change_rate : changes_rate_array) {
