@@ -2,6 +2,7 @@ package train2;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
+import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
 import train.PiecePack;
 import trian3.Rules;
 
@@ -15,6 +16,8 @@ public class GameManager {
     public GameManager(Application app, PiecePack pack) {
         this.app = app;
         this.pack = pack;
+        setKingLoc(0,"1g");
+        setKingLoc(1, "10g");
 
     }
 
@@ -28,6 +31,9 @@ public class GameManager {
     StringColor[] removed = new StringColor[0];
     int lastRemovedItem = 0;
     Map<String, Cell> bBoard = new HashMap<>();
+    Map<String, Cell> whitePieces = new HashMap<>();
+    Map<String, Cell> blackPieces = new HashMap<>();
+
     int lrow;
     char lcol;
     Color lBColor;
@@ -40,12 +46,20 @@ public class GameManager {
     private void Move(Cell lcell, Cell ncell) {
         ncell.setPiece(lcell.getPiece());
         ncell.setTcolor(lcell.getTcolor());
+        changePiece();
         lcell.setPiece(null);
         lcell.setTcolor(null);
         lcell.setBcolor(null);
+        if (ncell.getPiece().equals(PieceName.BLACK_KING)){
+            setKingLoc(1, ""+ncell.getRow()+ncell.getColumn());
+        }
+        if (ncell.getPiece().equals(PieceName.WHITE_KING)){
+            setKingLoc(0, ""+ncell.getRow()+ncell.getColumn());
+        }
         app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
         app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
         lBColor = null;
+//        isCheck();
         ClearBackGrounds();
         turnDetect();
     }
@@ -67,8 +81,10 @@ public class GameManager {
         }
         if (cell.getTcolor() == Color.BLACK) {
             temp[temp.length - 1] = new StringColor(cell.getPiece(), StringColor.BLACK);
+            blackPieces.remove(""+row+column);
         } else {
             temp[temp.length - 1] = new StringColor(cell.getPiece(), StringColor.WHITE);
+            whitePieces.remove(""+row+column);
         }
         lastRemovedItem++;
         removed = temp;
@@ -113,6 +129,7 @@ public class GameManager {
                     System.out.println(row + "" + column + sCell.getPiece());
                 }
             } else {
+                isCheck();
                 ClearBackGrounds();
                 changeBackgroundColor(sCell, row, column, Color.BLUE);
             }
@@ -136,12 +153,47 @@ public class GameManager {
         for (int i = 0; i < pack.num; i++) {
             app.setCellProperties(pack.wrow[i], pack.wcol[i], pack.wpiece[i], null, Color.WHITE);
             bBoard.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
+            whitePieces.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
             app.setCellProperties(pack.brow[i], pack.bcol[i], pack.bpiece[i], null, Color.BLACK);
             bBoard.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
+            blackPieces.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
             bBoard.get("" + pack.wrow[i] + pack.wcol[i]).setRound(1);
             bBoard.get("" + pack.brow[i] + pack.bcol[i]).setRound(1);
         }
+    }
 
+    private void isCheck(){
+        whiteCheck();
+        blackCheck();
+    }
+
+    private void whiteCheck() {
+        for (Cell cell: blackPieces.values()){
+            checkRule(cell);
+            if (bBoard.get(kingLoc[0]).getBcolor()==Color.darkGray){
+                System.out.println("white check");
+                break;
+            }
+        }
+    }
+
+    private void blackCheck() {
+        for (Cell cell: whitePieces.values()){
+            checkRule(cell);
+            if (bBoard.get(kingLoc[1]).getBcolor()==Color.darkGray){
+                System.out.println("black check");
+                break;
+            }
+        }
+    }
+    private void changePiece(){
+      if (lcell.getTcolor()==Color.white){
+          whitePieces.put(""+row+column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column));
+          whitePieces.remove(""+lrow+lcol);
+      }else if (lcell.getTcolor()==Color.BLACK){
+          blackPieces.put("" + row + column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column));
+          blackPieces.remove(""+lrow+lcol);
+      }
     }
 
     public void checkRule(Cell cell) {
@@ -175,5 +227,8 @@ public class GameManager {
     public Map<String, Cell> getbBoard() {
         return bBoard;
     }
-
+    String[] kingLoc = new String[2];
+    public void setKingLoc(int i,String location){
+        this.kingLoc[i] = location;
+    }
 }

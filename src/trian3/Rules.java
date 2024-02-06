@@ -290,7 +290,6 @@ public class Rules {
         if ((newRow >= 1 && newRow <= 11) && (newColumn >= 0 && newColumn <= 10)) {
             Cell cell = board.get("" + newRow + chars[newColumn]);
             String key = "" + newRow + chars[newColumn];
-            System.out.println(key);
             try {
                 if (!knightTarget.containsKey(key)) {
                     knightTarget.put(key, cell);
