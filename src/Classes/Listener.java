@@ -18,8 +18,7 @@ public class Listener implements EventListener {
 
     @Override
     public void onLoad(File file) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onLoad'");
+        game.arrangeBoardByFile(file);
     }
 
     @Override

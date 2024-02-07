@@ -163,7 +163,7 @@ public class GameManager {
                 }
             }
         }if (checkFile()){
-            arrangeBoardByFile();
+            arrangeBoardByFile(null);
         }else {
             arrangeNewBoard();
         }
@@ -288,11 +288,16 @@ public class GameManager {
         }
     }
 
-    public void fileToMap() {
+    public void fileToMap(File file) {
         try {
             String outputFolderPath = "src/data/";
             String outputFile = outputFolderPath + "cache.txt";
-            FileReader fileReader = new FileReader(outputFile);
+            FileReader fileReader;
+            if (file != null){
+                fileReader = new FileReader(file);
+            }else {
+                fileReader = new FileReader(outputFile);
+            }
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             String line;
@@ -325,9 +330,9 @@ public class GameManager {
         }
     }
 
-    public void arrangeBoardByFile() {
+    public void arrangeBoardByFile(File file) {
         try {
-            fileToMap();
+            fileToMap(file);
             for (Cell cell : bBoard.values()) {
                 if (!Objects.equals(cell.getPiece(), "null")) {
                     app.setCellProperties(cell.getRow(), cell.getColumn(), cell.getPiece(), null, cell.getTcolor());
