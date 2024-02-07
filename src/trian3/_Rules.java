@@ -301,7 +301,7 @@ public class _Rules {
                 knightTarget.remove("" + newRow + chars[newColumn]);
                 changeBackGroundColor(newRow, chars[newColumn], null);
             } else {
-                knightTarget.put("" + (newRow) + (chars[newColumn]), new Cell(null, null, null, newRow, chars[newColumn]));
+                knightTarget.put("" + (newRow) + (chars[newColumn]), new Cell(null, null, null, newRow, chars[newColumn], 1));
                 changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
             }
         } catch (Exception e) {

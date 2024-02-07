@@ -214,8 +214,6 @@ public class Rules {
         direct_movement(true);
     }
 
-    int j = 0;
-
     private void Knight() {
         knightTarget.clear();
         Cell cell = board.get("" + row + col);

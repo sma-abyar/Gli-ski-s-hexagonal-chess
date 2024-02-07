@@ -146,7 +146,7 @@ public class GameManager {
             col.add(c);
             for (int i = 1; i <= 11; i++) {
                 try {
-                    bBoard.put("" + i + c, new Cell(null, null, null, i, c));
+                    bBoard.put("" + i + c, new Cell(null, null, null, i, c, 1));
                 } catch (Exception e) {
 
                 }
@@ -154,13 +154,11 @@ public class GameManager {
         }
         for (int i = 0; i < pack.num; i++) {
             app.setCellProperties(pack.wrow[i], pack.wcol[i], pack.wpiece[i], null, Color.WHITE);
-            bBoard.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
-            whitePieces.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i]));
+            bBoard.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i], 1));
+            whitePieces.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i], 1));
             app.setCellProperties(pack.brow[i], pack.bcol[i], pack.bpiece[i], null, Color.BLACK);
-            bBoard.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
-            blackPieces.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i]));
-            bBoard.get("" + pack.wrow[i] + pack.wcol[i]).setRound(1);
-            bBoard.get("" + pack.brow[i] + pack.bcol[i]).setRound(1);
+            bBoard.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i], 1));
+            blackPieces.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i], 1));
         }
     }
 
@@ -206,10 +204,10 @@ public class GameManager {
 
     private void changePiece() {
         if (lcell.getTcolor() == Color.white) {
-            whitePieces.put("" + row + column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column));
+            whitePieces.put("" + row + column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column, 1));
             whitePieces.remove("" + lrow + lcol);
         } else if (lcell.getTcolor() == Color.BLACK) {
-            blackPieces.put("" + row + column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column));
+            blackPieces.put("" + row + column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column, 1));
             blackPieces.remove("" + lrow + lcol);
         }
     }
@@ -297,7 +295,7 @@ public class GameManager {
                     color = Color.WHITE;
                 }
                 // بازسازی Cell
-                Cell cell = new Cell(null, piece, color, row, column);
+                Cell cell = new Cell(null, piece, color, row, column, round);
                 // اضافه کردن Cell به HashMap
                 bBoard.put(key, cell);
             }

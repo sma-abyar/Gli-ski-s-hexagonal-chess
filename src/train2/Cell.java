@@ -3,12 +3,13 @@ package train2;
 import java.awt.*;
 
 public class Cell {
-    public Cell(Color bcolor, String piece, Color tcolor, int row, char column) {
+    public Cell(Color bcolor, String piece, Color tcolor, int row, char column, int round) {
         this.bcolor = bcolor;
         this.piece = piece;
         this.tcolor = tcolor;
         this.row = row;
         this.column = column;
+        setRound(round);
 
     }
     private Color bcolor;
