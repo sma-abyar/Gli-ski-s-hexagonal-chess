@@ -346,7 +346,11 @@ public class GameManager {
                 }
             }
             bufferedReader.readLine();
-            turn = bufferedReader.readLine();
+            if(bufferedReader.readLine().equals("White")){
+                turn = "Black";
+            }else {
+                turn = "White";
+            }
             while ((line = bufferedReader.readLine()) != null){
                 String[] cellData = line.split(", ");
                 String piece = cellData[0];
