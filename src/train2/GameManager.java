@@ -15,7 +15,7 @@ public class GameManager {
     public GameManager(Application app, PiecePack pack) {
         this.app = app;
         this.pack = pack;
-        setKingLoc(0,"1g");
+        setKingLoc(0, "1g");
         setKingLoc(1, "10g");
         fileToMap();
 
@@ -50,11 +50,11 @@ public class GameManager {
         lcell.setPiece(null);
         lcell.setTcolor(null);
         lcell.setBcolor(null);
-        if (ncell.getPiece().equals(PieceName.BLACK_KING)){
-            setKingLoc(1, ""+ncell.getRow()+ncell.getColumn());
+        if (ncell.getPiece().equals(PieceName.BLACK_KING)) {
+            setKingLoc(1, "" + ncell.getRow() + ncell.getColumn());
         }
-        if (ncell.getPiece().equals(PieceName.WHITE_KING)){
-            setKingLoc(0, ""+ncell.getRow()+ncell.getColumn());
+        if (ncell.getPiece().equals(PieceName.WHITE_KING)) {
+            setKingLoc(0, "" + ncell.getRow() + ncell.getColumn());
         }
         app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
         app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
@@ -82,10 +82,10 @@ public class GameManager {
         }
         if (cell.getTcolor() == Color.BLACK) {
             temp[temp.length - 1] = new StringColor(cell.getPiece(), StringColor.BLACK);
-            blackPieces.remove(""+row+column);
+            blackPieces.remove("" + row + column);
         } else {
             temp[temp.length - 1] = new StringColor(cell.getPiece(), StringColor.WHITE);
-            whitePieces.remove(""+row+column);
+            whitePieces.remove("" + row + column);
         }
         lastRemovedItem++;
         removed = temp;
@@ -164,51 +164,54 @@ public class GameManager {
         }
     }
 
-    private void isCheck(){
+    private void isCheck() {
         whiteCheck();
         blackCheck();
     }
+
     boolean whiteCheck = false;
     boolean blackCheck = false;
+
     private void changeCheckColor() {
-        if (whiteCheck){
-            app.changeBackGround(bBoard.get(kingLoc[0]).getRow(),bBoard.get(kingLoc[0]).getColumn(), Color.YELLOW);
-        }else if(blackCheck){
-            app.changeBackGround(bBoard.get(kingLoc[1]).getRow(),bBoard.get(kingLoc[1]).getColumn(), Color.YELLOW);
+        if (whiteCheck) {
+            app.changeBackGround(bBoard.get(kingLoc[0]).getRow(), bBoard.get(kingLoc[0]).getColumn(), Color.YELLOW);
+        } else if (blackCheck) {
+            app.changeBackGround(bBoard.get(kingLoc[1]).getRow(), bBoard.get(kingLoc[1]).getColumn(), Color.YELLOW);
             mapToFile();
         }
     }
 
     private void whiteCheck() {
-        for (Cell cell: blackPieces.values()){
+        for (Cell cell : blackPieces.values()) {
             checkRule(cell);
-            if (bBoard.get(kingLoc[0]).getBcolor()==Color.darkGray){
+            if (bBoard.get(kingLoc[0]).getBcolor() == Color.darkGray) {
                 whiteCheck = true;
                 break;
-            }else {
+            } else {
                 whiteCheck = false;
             }
         }
     }
 
     private void blackCheck() {
-        for (Cell cell: whitePieces.values()){
+        for (Cell cell : whitePieces.values()) {
             checkRule(cell);
-            if (bBoard.get(kingLoc[1]).getBcolor()==Color.darkGray){
+            if (bBoard.get(kingLoc[1]).getBcolor() == Color.darkGray) {
                 blackCheck = true;
-            }else{
+            } else {
                 blackCheck = false;
             }
         }
     }
-    private void changePiece(){
-      if (lcell.getTcolor()==Color.white){
-          whitePieces.put(""+row+column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column));
-          whitePieces.remove(""+lrow+lcol);
-      }else if (lcell.getTcolor()==Color.BLACK){
-          blackPieces.put("" + row + column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column));
-          blackPieces.remove(""+lrow+lcol);
-      }
+
+    private void changePiece() {
+        if (lcell.getTcolor() == Color.white) {
+            whitePieces.put("" + row + column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column));
+            whitePieces.remove("" + lrow + lcol);
+        } else if (lcell.getTcolor() == Color.BLACK) {
+            blackPieces.put("" + row + column, new Cell(null, lcell.getPiece(), lcell.getTcolor(), row, column));
+            blackPieces.remove("" + lrow + lcol);
+        }
     }
 
     public void checkRule(Cell cell) {
@@ -242,22 +245,25 @@ public class GameManager {
     public Map<String, Cell> getbBoard() {
         return bBoard;
     }
+
     String[] kingLoc = new String[2];
-    public void setKingLoc(int i,String location){
+
+    public void setKingLoc(int i, String location) {
         this.kingLoc[i] = location;
     }
-    public void mapToFile(){
+
+    public void mapToFile() {
         try {
             FileWriter fileWriter = new FileWriter("hashmap.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            for (Cell cell : bBoard.values()){
+            for (Cell cell : bBoard.values()) {
                 String color = null;
-                if(cell.getTcolor() == Color.BLACK){
+                if (cell.getTcolor() == Color.BLACK) {
                     color = "Black";
                 } else if (cell.getTcolor() == Color.WHITE) {
                     color = "White";
                 }
-                bufferedWriter.write(cell.getKey()+": "+cell.getRow()+", "+cell.getColumn()+", "+ cell.getPiece()+", "+ color+", "+cell.getRound());
+                bufferedWriter.write(cell.getKey() + ": " + cell.getRow() + ", " + cell.getColumn() + ", " + cell.getPiece() + ", " + color + ", " + cell.getRound());
                 bufferedWriter.newLine();
             }
             bufferedWriter.close();
@@ -267,7 +273,8 @@ public class GameManager {
             System.out.println("Failed!");
         }
     }
-    public void fileToMap(){
+
+    public void fileToMap() {
         try {
             FileReader fileReader = new FileReader("hashmap.txt");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -284,9 +291,9 @@ public class GameManager {
                 String tcolor = cellData[3];
                 int round = Integer.parseInt(cellData[4]);
                 Color color = null;
-                if (tcolor.equals("Black")){
+                if (tcolor.equals("Black")) {
                     color = Color.BLACK;
-                }else if (tcolor.equals("White")){
+                } else if (tcolor.equals("White")) {
                     color = Color.WHITE;
                 }
                 // بازسازی Cell
@@ -302,13 +309,14 @@ public class GameManager {
             e.printStackTrace();
         }
     }
-    public void arrangeBoardByFile(){
-        for (Cell cell : bBoard.values()){
+
+    public void arrangeBoardByFile() {
+        for (Cell cell : bBoard.values()) {
             try {
-                if (!Objects.equals(cell.getPiece(), "null")){
+                if (!Objects.equals(cell.getPiece(), "null")) {
                     app.setCellProperties(cell.getRow(), cell.getColumn(), cell.getPiece(), null, cell.getTcolor());
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
