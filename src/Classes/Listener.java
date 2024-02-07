@@ -24,13 +24,15 @@ public class Listener implements EventListener {
 
     @Override
     public void onSave(File file) {
+        game.mapToFile(file);
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onSave'");
+//        throw new UnsupportedOperationException("Unimplemented method 'onSave'");
     }
 
     @Override
     public void onNewGame() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onNewGame'");
+//        game.
+        game.arrangeNewBoard();
+//        throw new UnsupportedOperationException("Unimplemented method 'onNewGame'");
     }
 }

@@ -92,7 +92,7 @@
 4d: 4, d, null, null, 2
 4e: 4, e, ♙, White, 1
 4f: 4, f, null, null, 2
-4g: 4, g, ♙, White, 1
+4g: 4, g, null, null, 1
 4h: 4, h, null, null, 2
 4i: 4, i, null, null, 2
 4k: 4, k, null, null, 2
@@ -102,7 +102,7 @@
 5c: 5, c, null, null, 2
 5d: 5, d, null, null, 2
 5e: 5, e, null, null, 2
-5f: 5, f, null, null, 1
+5f: 5, f, null, null, 2
 5g: 5, g, null, null, 2
 5h: 5, h, null, null, 2
 5i: 5, i, null, null, 2
@@ -114,7 +114,7 @@
 6d: 6, d, null, null, 2
 6e: 6, e, null, null, 2
 6f: 6, f, ♙, White, 2
-6g: 6, g, null, null, 2
+6g: 6, g, ♙, White, 2
 6h: 6, h, null, null, 2
 6i: 6, i, null, null, 2
 6k: 6, k, null, null, 2

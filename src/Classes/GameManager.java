@@ -15,7 +15,6 @@ public class GameManager {
         this.pack = pack;
         setKingLoc(0, "1g");
         setKingLoc(1, "10g");
-        fileToMap();
     }
 
     protected int row;
@@ -58,7 +57,7 @@ public class GameManager {
         lBColor = null;
         ClearBackGrounds();
         changeCheckColor();
-        mapToFile();
+        mapToFile(null);
         turnDetect();
     }
 
@@ -137,21 +136,7 @@ public class GameManager {
         }
     }
 
-    public void createNewBoard(){
-
-    }
-    public void arrangeBoard() {
-        app.setMessage(turn + "'s Turn");
-        for (char c : chars) {
-            col.add(c);
-            for (int i = 1; i <= 11; i++) {
-                try {
-                    bBoard.put("" + i + c, new Cell(null, null, null, i, c, 2));
-                } catch (Exception e) {
-
-                }
-            }
-        }
+    public void arrangeNewBoard() {
         for (int i = 0; i < pack.num; i++) {
             int round = 2;
             if (pack.wpiece[i].equals(PieceName.WHITE_PAWN) || pack.bpiece[i].equals(PieceName.BLACK_PAWN)) {
@@ -163,6 +148,24 @@ public class GameManager {
             app.setCellProperties(pack.brow[i], pack.bcol[i], pack.bpiece[i], null, Color.BLACK);
             bBoard.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i], round));
             blackPieces.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i], round));
+        }
+    }
+
+    public void arrangeBoard() {
+        app.setMessage(turn + "'s Turn");
+        for (char c : chars) {
+            col.add(c);
+            for (int i = 1; i <= 11; i++) {
+                try {
+                    bBoard.put("" + i + c, new Cell(null, null, null, i, c, 2));
+                } catch (Exception e) {
+
+                }
+            }
+        }if (checkFile()){
+            arrangeBoardByFile();
+        }else {
+            arrangeNewBoard();
         }
     }
 
@@ -179,7 +182,6 @@ public class GameManager {
             app.changeBackGround(bBoard.get(kingLoc[0]).getRow(), bBoard.get(kingLoc[0]).getColumn(), Color.YELLOW);
         } else if (blackCheck) {
             app.changeBackGround(bBoard.get(kingLoc[1]).getRow(), bBoard.get(kingLoc[1]).getColumn(), Color.YELLOW);
-            mapToFile();
         }
     }
 
@@ -254,22 +256,19 @@ public class GameManager {
         this.kingLoc[i] = location;
     }
 
-    public void mapToFile() {
+    public void mapToFile(File file) {
         try {
-            // مسیر فولدر خروجی
             String outputFolderPath = "src/data/";
-
-            // ایجاد شیء File برای فولدر خروجی
             File outputFolder = new File(outputFolderPath);
-
-            // ایجاد فولدر اگر وجود نداشته باشد
             outputFolder.mkdirs();
-
-            // مسیر فایل خروجی
             String outputFile = outputFolderPath + "cache.txt";
-
+            FileWriter fileWriter;
             // ایجاد FileWriter برای نوشتن در فایل خروجی
-            FileWriter fileWriter = new FileWriter(outputFile);
+            if (file!=null){
+                fileWriter = new FileWriter(file);
+            }else {
+                fileWriter = new FileWriter(outputFile);
+            }
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (Cell cell : bBoard.values()) {
                 String color = null;
@@ -313,8 +312,10 @@ public class GameManager {
                 } else if (tcolor.equals("White")) {
                     color = Color.WHITE;
                 }
-                Cell cell = new Cell(null, piece, color, row, column, round);
-                bBoard.put(key, cell);
+                if (!piece.equals("null")) {
+                    Cell cell = new Cell(null, piece, color, row, column, round);
+                    bBoard.put(key, cell);
+                }
             }
             bufferedReader.close();
             fileReader.close();
@@ -325,14 +326,22 @@ public class GameManager {
     }
 
     public void arrangeBoardByFile() {
-        for (Cell cell : bBoard.values()) {
-            try {
+        try {
+            fileToMap();
+            for (Cell cell : bBoard.values()) {
                 if (!Objects.equals(cell.getPiece(), "null")) {
                     app.setCellProperties(cell.getRow(), cell.getColumn(), cell.getPiece(), null, cell.getTcolor());
                 }
-            } catch (Exception e) {
-
             }
+        } catch (Exception e) {
+        }
+    }
+    public boolean checkFile(){
+        File file = new File("src/data/cache.txt");
+        if (file.length() == 0 || file.length() == 1) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
