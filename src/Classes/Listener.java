@@ -3,6 +3,7 @@ package Classes;
 import java.io.File;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.listeners.EventListener;
+import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 
 
 public class Listener implements EventListener {
@@ -18,6 +19,7 @@ public class Listener implements EventListener {
 
     @Override
     public void onLoad(File file) {
+        game.getApp().setRemovedPieces(new StringColor[]{});
         game.clearCells();
         game.arrangeBoardByFile(file);
     }
@@ -29,6 +31,7 @@ public class Listener implements EventListener {
 
     @Override
     public void onNewGame() {
+        game.getApp().setRemovedPieces(new StringColor[]{});
         game.clearCells();
         game.arrangeNewBoard();
     }

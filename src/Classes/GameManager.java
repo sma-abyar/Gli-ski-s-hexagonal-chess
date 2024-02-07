@@ -23,6 +23,7 @@ public class GameManager {
     protected PiecePack pack;
     private Cell sCell;
     private Cell lcell;
+    private Cell[] removedCells = new Cell[0];
     protected Rules rules = new Rules();
     StringColor[] removed = new StringColor[0];
     int lastRemovedItem = 0;
@@ -33,6 +34,7 @@ public class GameManager {
     int lrow;
     char lcol;
     Color lBColor;
+
     public List<Character> col = new ArrayList<>();
     char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l'};
     String charnum = "abcdefghikl";
@@ -69,9 +71,14 @@ public class GameManager {
         }
         app.setMessage(turn + "'s Turn");
     }
-
     private void removePiece(Cell cell) {
+        Cell[] removetemp = new Cell[removedCells.length+1];
         cell.setRound(3);
+        for (int i = 0; i < removedCells.length; i++) {
+            removetemp[i] = removedCells[i];
+        }
+        removetemp[removetemp.length-1] = new Cell(null, cell.getPiece(), cell.getTcolor(), cell.getRow(), cell.getColumn(), cell.getRound());
+        removedCells = removetemp;
         StringColor[] temp = new StringColor[removed.length + 1];
         for (int i = 0; i < removed.length; i++) {
             temp[i] = removed[i];
@@ -162,9 +169,10 @@ public class GameManager {
 
                 }
             }
-        }if (checkFile()){
+        }
+        if (checkFile()) {
             arrangeBoardByFile(null);
-        }else {
+        } else {
             arrangeNewBoard();
         }
     }
@@ -263,10 +271,9 @@ public class GameManager {
             outputFolder.mkdirs();
             String outputFile = outputFolderPath + "cache.txt";
             FileWriter fileWriter;
-            // ایجاد FileWriter برای نوشتن در فایل خروجی
-            if (file!=null){
+            if (file != null) {
                 fileWriter = new FileWriter(file);
-            }else {
+            } else {
                 fileWriter = new FileWriter(outputFile);
             }
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -278,6 +285,20 @@ public class GameManager {
                     color = "White";
                 }
                 bufferedWriter.write(cell.getKey() + ": " + cell.getRow() + ", " + cell.getColumn() + ", " + cell.getPiece() + ", " + color + ", " + cell.getRound());
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.write("Event data");
+            bufferedWriter.newLine();
+            bufferedWriter.write(turn);
+            bufferedWriter.newLine();
+            for (Cell cell : removedCells){
+                String color = null;
+                if (cell.getTcolor() == Color.BLACK) {
+                    color = "Black";
+                } else if (cell.getTcolor() == Color.WHITE) {
+                    color = "White";
+                }
+                bufferedWriter.write(cell.getPiece() + ", " + color);
                 bufferedWriter.newLine();
             }
             bufferedWriter.close();
@@ -293,16 +314,18 @@ public class GameManager {
             String outputFolderPath = "src/data/";
             String outputFile = outputFolderPath + "cache.txt";
             FileReader fileReader;
-            if (file != null){
+            if (file != null) {
                 fileReader = new FileReader(file);
-            }else {
+            } else {
                 fileReader = new FileReader(outputFile);
             }
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                // جدا کردن اطلاعات مختلف از هر خط
+            int readLine = 0;
+            while (readLine<121) {
+                readLine++;
+                line = bufferedReader.readLine();
                 String[] parts = line.split(": ");
                 String key = parts[0];
                 String[] cellData = parts[1].split(", ");
@@ -321,6 +344,20 @@ public class GameManager {
                     Cell cell = new Cell(null, piece, color, row, column, round);
                     bBoard.put(key, cell);
                 }
+            }
+            bufferedReader.readLine();
+            turn = bufferedReader.readLine();
+            while ((line = bufferedReader.readLine()) != null){
+                String[] cellData = line.split(", ");
+                String piece = cellData[0];
+                String tcolor = cellData[1];
+                Color color = null;
+                if (tcolor.equals("Black")) {
+                    color = Color.BLACK;
+                } else if (tcolor.equals("White")) {
+                    color = Color.WHITE;
+                }
+                removePiece(new Cell(null, piece, color, 0, 'a', 3));
             }
             bufferedReader.close();
             fileReader.close();
@@ -341,7 +378,8 @@ public class GameManager {
         } catch (Exception e) {
         }
     }
-    public boolean checkFile(){
+
+    public boolean checkFile() {
         File file = new File("src/data/cache.txt");
         if (file.length() == 0 || file.length() == 1) {
             return false;
@@ -349,9 +387,10 @@ public class GameManager {
             return true;
         }
     }
-    public void clearCells(){
-        for (Cell cell : bBoard.values()){
-            if (cell.getPiece()!= null){
+
+    public void clearCells() {
+        for (Cell cell : bBoard.values()) {
+            if (cell.getPiece() != null) {
                 app.setCellProperties(cell.getRow(), cell.getColumn(), null, null, null);
             }
         }
