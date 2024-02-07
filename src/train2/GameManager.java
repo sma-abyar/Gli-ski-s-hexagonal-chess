@@ -8,10 +8,8 @@ import trian3.Rules;
 
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class GameManager {
     public GameManager(Application app, PiecePack pack) {
@@ -302,6 +300,17 @@ public class GameManager {
         } catch (IOException e) {
             System.out.println("Failed!");
             e.printStackTrace();
+        }
+    }
+    public void arrangeBoardByFile(){
+        for (Cell cell : bBoard.values()){
+            try {
+                if (!Objects.equals(cell.getPiece(), "null")){
+                    app.setCellProperties(cell.getRow(), cell.getColumn(), cell.getPiece(), null, cell.getTcolor());
+                }
+            }catch (Exception e){
+
+            }
         }
     }
 }
