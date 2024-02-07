@@ -1,12 +1,8 @@
-package train;
+package Classes;
 
-import java.awt.Color;
 import java.io.File;
 
-import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.graphics.listeners.EventListener;
-import train2.Cell;
-import train2.GameManager;
 
 
 public class Listener implements EventListener {

@@ -1,4 +1,4 @@
-package train;
+package Classes;
 
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
 

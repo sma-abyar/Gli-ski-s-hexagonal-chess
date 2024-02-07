@@ -1,10 +1,8 @@
-package train2;
+package Classes;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.graphics.models.StringColor;
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
-import train.PiecePack;
-import trian3.Rules;
 
 import java.awt.*;
 import java.io.*;
@@ -18,7 +16,6 @@ public class GameManager {
         setKingLoc(0, "1g");
         setKingLoc(1, "10g");
         fileToMap();
-
     }
 
     protected int row;
@@ -59,9 +56,9 @@ public class GameManager {
         app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
         app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
         lBColor = null;
-//        isCheck();
         ClearBackGrounds();
         changeCheckColor();
+        mapToFile();
         turnDetect();
     }
 
@@ -140,25 +137,32 @@ public class GameManager {
         }
     }
 
+    public void createNewBoard(){
+
+    }
     public void arrangeBoard() {
         app.setMessage(turn + "'s Turn");
         for (char c : chars) {
             col.add(c);
             for (int i = 1; i <= 11; i++) {
                 try {
-                    bBoard.put("" + i + c, new Cell(null, null, null, i, c, 1));
+                    bBoard.put("" + i + c, new Cell(null, null, null, i, c, 2));
                 } catch (Exception e) {
 
                 }
             }
         }
         for (int i = 0; i < pack.num; i++) {
+            int round = 2;
+            if (pack.wpiece[i].equals(PieceName.WHITE_PAWN) || pack.bpiece[i].equals(PieceName.BLACK_PAWN)) {
+                round = 1;
+            }
             app.setCellProperties(pack.wrow[i], pack.wcol[i], pack.wpiece[i], null, Color.WHITE);
-            bBoard.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i], 1));
-            whitePieces.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i], 1));
+            bBoard.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i], round));
+            whitePieces.put("" + pack.wrow[i] + pack.wcol[i], new Cell(null, pack.wpiece[i], Color.WHITE, pack.wrow[i], pack.wcol[i], round));
             app.setCellProperties(pack.brow[i], pack.bcol[i], pack.bpiece[i], null, Color.BLACK);
-            bBoard.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i], 1));
-            blackPieces.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i], 1));
+            bBoard.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i], round));
+            blackPieces.put("" + pack.brow[i] + pack.bcol[i], new Cell(null, pack.bpiece[i], Color.BLACK, pack.brow[i], pack.bcol[i], round));
         }
     }
 
@@ -252,7 +256,20 @@ public class GameManager {
 
     public void mapToFile() {
         try {
-            FileWriter fileWriter = new FileWriter("hashmap.txt");
+            // مسیر فولدر خروجی
+            String outputFolderPath = "src/data/";
+
+            // ایجاد شیء File برای فولدر خروجی
+            File outputFolder = new File(outputFolderPath);
+
+            // ایجاد فولدر اگر وجود نداشته باشد
+            outputFolder.mkdirs();
+
+            // مسیر فایل خروجی
+            String outputFile = outputFolderPath + "cache.txt";
+
+            // ایجاد FileWriter برای نوشتن در فایل خروجی
+            FileWriter fileWriter = new FileWriter(outputFile);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (Cell cell : bBoard.values()) {
                 String color = null;
@@ -274,7 +291,9 @@ public class GameManager {
 
     public void fileToMap() {
         try {
-            FileReader fileReader = new FileReader("hashmap.txt");
+            String outputFolderPath = "src/data/";
+            String outputFile = outputFolderPath + "cache.txt";
+            FileReader fileReader = new FileReader(outputFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
             String line;
@@ -294,9 +313,7 @@ public class GameManager {
                 } else if (tcolor.equals("White")) {
                     color = Color.WHITE;
                 }
-                // بازسازی Cell
                 Cell cell = new Cell(null, piece, color, row, column, round);
-                // اضافه کردن Cell به HashMap
                 bBoard.put(key, cell);
             }
             bufferedReader.close();
@@ -304,7 +321,6 @@ public class GameManager {
             System.out.println("Success!");
         } catch (IOException e) {
             System.out.println("Failed!");
-            e.printStackTrace();
         }
     }
 

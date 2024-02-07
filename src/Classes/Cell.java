@@ -1,4 +1,4 @@
-package train2;
+package Classes;
 
 import java.awt.*;
 
@@ -17,7 +17,7 @@ public class Cell {
     private Color tcolor;
     private int row;
     private char column;
-    private int round = 2;
+    private int round;
 
     public Color getBcolor() {
         return bcolor;

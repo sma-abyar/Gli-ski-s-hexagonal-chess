@@ -1,9 +1,9 @@
-package trian3;
+package Classes;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
-import train2.Cell;
-import train2.GameManager;
+import Classes.Cell;
+import Classes.GameManager;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.Objects;
 import static ir.sharif.math.bp02_1.hex_chess.util.PieceName.BLACK_PAWN;
 import static ir.sharif.math.bp02_1.hex_chess.util.PieceName.WHITE_PAWN;
 
-public class _Rules {
+public class Rules {
     String charnum;
     Application app;
     Cell sCell;
@@ -25,7 +25,7 @@ public class _Rules {
     int[][] rcolored;
     int[][] ccolored;
     Map<String, Cell> board;
-    Map<String, Cell> knightTarget;
+    Map<String, Cell> knightTarget = new HashMap<>();
 
     public void Movement(GameManager board, Cell cell) {
         this.sCell = cell;
@@ -64,7 +64,7 @@ public class _Rules {
     }
 
     private void blackPawn() {
-        if (sCell.getRound() == 1) {
+        if (sCell.getRound() == 1 && board.get("" + (row - 1) + chars[charn]).getPiece() == null) {
             if (board.get("" + (row - 2) + chars[charn]).getPiece() == null) {
                 changeBackGroundColor(row - 2, chars[charn], Color.lightGray);
             }
@@ -118,7 +118,7 @@ public class _Rules {
     }
 
     private void whitePawn() {
-        if (sCell.getRound() == 1) {
+        if (sCell.getRound() == 1 && board.get("" + (row + 1) + chars[charn]).getPiece() == null) {
             if (board.get("" + (row + 2) + chars[charn]).getPiece() == null) {
                 changeBackGroundColor(row + 2, chars[charn], Color.lightGray);
             }
@@ -215,7 +215,7 @@ public class _Rules {
     }
 
     private void Knight() {
-        knightTarget = new HashMap<>();
+        knightTarget.clear();
         Cell cell = board.get("" + row + col);
         int[][] changes_rate_array;
         if (charn > 5) {
@@ -225,86 +225,78 @@ public class _Rules {
         } else {
             changes_rate_array = new int[][]{{1, 2}, {2, 1}, {1, -1}, {-1, -2}, {-2, -1}, {-1, 1}};
         }
+
         for (int[] cell_change_rate : changes_rate_array) {
-            System.out.println(i++);
-            KnightLv1(cell, cell_change_rate);
-        }
-//        for ()
+            int newRow = cell.getRow() + cell_change_rate[1];
+            int newColumn = charnum.indexOf(cell.getColumn()) + cell_change_rate[0];
+            if (newColumn == 5 && (cell_change_rate[1] == 2 || cell_change_rate[1] == -1)) {
+                cell_change_rate[1]--;
 
-    }
+            } else if (cell_change_rate[0] == 2 || cell_change_rate[0] == -2) {
 
-    private void KnightLv1(Cell cell, int[] cell_change_rate) {
-        int row = cell.getRow();
-        int column = charnum.indexOf(cell.getColumn());
-        int newRow = row + cell_change_rate[1];
-        int newColumn = column + cell_change_rate[0];
-        if (newColumn == 5 && (cell_change_rate[1] == 2 || cell_change_rate[1] == -1)) {
-            cell_change_rate[1]--;
-
-        } else if (cell_change_rate[0] == 2 || cell_change_rate[0] == -2) {
-
-            if (newColumn == 5) {
-                cell_change_rate[1] -= 2;
-            } else if (newColumn == 4 || newColumn == 6) {
-                cell_change_rate[1] = 0;
-                if (column == 4 || column == 6) {
-                    newRow = row;
-                }
-                if ((column < 5 && newColumn > 5) || column > 5 && newColumn < 5) {
-                    cell_change_rate[1] = -1;
+                if (newColumn == 5) {
+                    cell_change_rate[1] -= 2;
+                } else if (newColumn == 4 || newColumn == 6) {
+                    cell_change_rate[1] = 0;
+                    if (charn == 4 || charn == 6) {
+                        newRow = row;
+                    }
+                    if ((charn < 5 && newColumn > 5) || charn > 5 && newColumn < 5) {
+                        cell_change_rate[1] = -1;
+                    }
                 }
             }
+            KnightLv2(newRow, newColumn);
         }
 
-        try {
-//            changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
-            Cell newCell = board.get("" + newRow + chars[newColumn]);
-            KnightLv2(newCell);
-            if (newCell.getPiece() != null) {
-                return;
-            }
-        } catch (Exception e) {
+        for (Cell target_cell : knightTarget.values()) {
+            try {
+                int target_row = target_cell.getRow();
+                int target_column = charnum.indexOf(target_cell.getColumn());
+                changeBackGroundColor(target_row, chars[target_column], Color.lightGray);
 
+            } catch (Exception e) {
+
+            }
         }
     }
 
-    private void KnightLv2(Cell cell) {
+    private void KnightLv2(int row, int column) {
         int[][] changes_rate_array;
-        if (charn > 5) {
-            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
-        } else if (charn == 5) {
-            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
+
+        if (column > 5) {
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1},
+                    {-1, 0}, {-1, 1}};
+        } else if (column == 5) {
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1},
+                    {-1, -1}, {-1, 0}};
         } else {
-            changes_rate_array = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {-1, -1}, {-1, 0}};
+            changes_rate_array = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {
+                    -1, -1}, {-1, 0}};
         }
 
         for (int[] cell_change_rate : changes_rate_array) {
-            addToTarget(cell, cell_change_rate);
+            add_to_targets(row, column, cell_change_rate);
         }
     }
 
-    int i = 0;
+    private void add_to_targets(int row, int column, int[] cell_change_rate) {
 
-    private void addToTarget(Cell cell, int[] cell_change_rate) {
-        int row = cell.getRow();
-        int column = charnum.indexOf(cell.getColumn());
         int newRow = row + cell_change_rate[1];
         int newColumn = column + cell_change_rate[0];
 
-        if (newColumn == 5 && cell_change_rate[0] != 0) {
-            cell_change_rate[1]--;
-        }
-
-        try {
-            System.out.println("" + (newRow) + (chars[newColumn]));
-            if (knightTarget.containsKey("" + newRow + chars[newColumn])) {
-                knightTarget.remove("" + newRow + chars[newColumn]);
-                changeBackGroundColor(newRow, chars[newColumn], null);
-            } else {
-                knightTarget.put("" + (newRow) + (chars[newColumn]), new Cell(null, null, null, newRow, chars[newColumn], 1));
-                changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
+        if ((newRow >= 1 && newRow <= 11) && (newColumn >= 0 && newColumn <= 10)) {
+            Cell cell = board.get("" + newRow + chars[newColumn]);
+            String key = "" + newRow + chars[newColumn];
+            try {
+                if (!knightTarget.containsKey(key)) {
+                    knightTarget.put(key, cell);
+                } else {
+                    knightTarget.remove(key);
+                }
+            } catch (Exception e) {
             }
-        } catch (Exception e) {
+
         }
     }
 
@@ -373,7 +365,8 @@ public class _Rules {
             if (sCell.getTcolor() != cell.getTcolor()) {
                 cell.setBcolor(color);
                 app.changeBackGround(row, col, color);
-                if (cell.getPiece() != null && (!Objects.equals(sCell.getPiece(), BLACK_PAWN) && !Objects.equals(sCell.getPiece(), WHITE_PAWN))) {
+                if (cell.getPiece() != null && (!Objects.equals(sCell.getPiece(), BLACK_PAWN)
+                        && !Objects.equals(sCell.getPiece(), WHITE_PAWN))) {
                     cell.setBcolor(Color.DARK_GRAY);
                     app.changeBackGround(row, col, Color.DARK_GRAY);
                 }
@@ -382,4 +375,3 @@ public class _Rules {
         }
     }
 }
-
