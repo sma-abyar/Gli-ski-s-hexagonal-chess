@@ -349,5 +349,12 @@ public class GameManager {
             return true;
         }
     }
+    public void clearCells(){
+        for (Cell cell : bBoard.values()){
+            if (cell.getPiece()!= null){
+                app.setCellProperties(cell.getRow(), cell.getColumn(), null, null, null);
+            }
+        }
+    }
 }
 

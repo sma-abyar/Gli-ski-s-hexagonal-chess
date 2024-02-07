@@ -18,6 +18,7 @@ public class Listener implements EventListener {
 
     @Override
     public void onLoad(File file) {
+        game.clearCells();
         game.arrangeBoardByFile(file);
     }
 
@@ -28,7 +29,7 @@ public class Listener implements EventListener {
 
     @Override
     public void onNewGame() {
-//        game.
+        game.clearCells();
         game.arrangeNewBoard();
     }
 }
