@@ -19,7 +19,7 @@ public class GameManager {
         this.pack = pack;
         setKingLoc(0,"1g");
         setKingLoc(1, "10g");
-//        fileToMap();
+        fileToMap();
 
     }
 
@@ -253,7 +253,13 @@ public class GameManager {
             FileWriter fileWriter = new FileWriter("hashmap.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (Cell cell : bBoard.values()){
-                bufferedWriter.write(cell.getKey()+": "+cell.getRow()+", "+cell.getColumn()+", "+ cell.getPiece()+", "+ cell.getTcolor()+", "+cell.getRound());
+                String color = null;
+                if(cell.getTcolor() == Color.BLACK){
+                    color = "Black";
+                } else if (cell.getTcolor() == Color.WHITE) {
+                    color = "White";
+                }
+                bufferedWriter.write(cell.getKey()+": "+cell.getRow()+", "+cell.getColumn()+", "+ cell.getPiece()+", "+ color+", "+cell.getRound());
                 bufferedWriter.newLine();
             }
             bufferedWriter.close();
@@ -277,29 +283,25 @@ public class GameManager {
                 int row = Integer.parseInt(cellData[0]);
                 char column = cellData[1].charAt(0);
                 String piece = cellData[2];
-                Color tcolor = Color.decode(cellData[3]);
+                String tcolor = cellData[3];
                 int round = Integer.parseInt(cellData[4]);
-
+                Color color = null;
+                if (tcolor.equals("Black")){
+                    color = Color.BLACK;
+                }else if (tcolor.equals("White")){
+                    color = Color.WHITE;
+                }
                 // بازسازی Cell
-//                Cell cell = new Cell(row, column, piece, tcolor, round);
-                Cell cell = new Cell(null, piece, tcolor, row, column);
-
+                Cell cell = new Cell(null, piece, color, row, column);
                 // اضافه کردن Cell به HashMap
                 bBoard.put(key, cell);
             }
-
             bufferedReader.close();
             fileReader.close();
             System.out.println("Success!");
         } catch (IOException e) {
             System.out.println("Failed!");
             e.printStackTrace();
-        }
-
-        // اطلاعات بازگردانی شده از فایل
-        System.out.println("اطلاعات بازگردانی شده از فایل:");
-        for (Map.Entry<String, Cell> entry : bBoard.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Cell: " + entry.getValue());
         }
     }
 }
