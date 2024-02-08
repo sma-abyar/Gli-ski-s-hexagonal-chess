@@ -54,8 +54,20 @@ public class GameManager {
         if (ncell.getPiece().equals(PieceName.WHITE_KING)) {
             setKingLoc(0, "" + ncell.getRow() + ncell.getColumn());
         }
-        app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
         app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
+        if((ncell.getRow()==1) && (Objects.equals(ncell.getPiece(), PieceName.BLACK_PAWN))){
+            String newPiece = app.showPromotionPopup();
+            if (newPiece.equals("Queen")){
+                ncell.setPiece(PieceName.BLACK_QUEEN);
+            }else if (newPiece.equals("Rook")){
+                ncell.setPiece(PieceName.BLACK_ROCK);
+            }else if (newPiece.equals("Bishop")){
+                ncell.setPiece(PieceName.BLACK_BISHOP);
+            }else if (newPiece.equals("Knight")){
+                ncell.setPiece(PieceName.BLACK_KNIGHT);
+            }
+        }
+        app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
         lBColor = null;
         ClearBackGrounds();
         changeCheckColor();
@@ -71,13 +83,14 @@ public class GameManager {
         }
         app.setMessage(turn + "'s Turn");
     }
+
     private void removePiece(Cell cell) {
-        Cell[] removetemp = new Cell[removedCells.length+1];
+        Cell[] removetemp = new Cell[removedCells.length + 1];
         cell.setRound(3);
         for (int i = 0; i < removedCells.length; i++) {
             removetemp[i] = removedCells[i];
         }
-        removetemp[removetemp.length-1] = new Cell(null, cell.getPiece(), cell.getTcolor(), cell.getRow(), cell.getColumn(), cell.getRound());
+        removetemp[removetemp.length - 1] = new Cell(null, cell.getPiece(), cell.getTcolor(), cell.getRow(), cell.getColumn(), cell.getRound());
         removedCells = removetemp;
         StringColor[] temp = new StringColor[removed.length + 1];
         for (int i = 0; i < removed.length; i++) {
@@ -291,7 +304,7 @@ public class GameManager {
             bufferedWriter.newLine();
             bufferedWriter.write(turn);
             bufferedWriter.newLine();
-            for (Cell cell : removedCells){
+            for (Cell cell : removedCells) {
                 String color = null;
                 if (cell.getTcolor() == Color.BLACK) {
                     color = "Black";
@@ -323,7 +336,7 @@ public class GameManager {
 
             String line;
             int readLine = 0;
-            while (readLine<121) {
+            while (readLine < 121) {
                 readLine++;
                 line = bufferedReader.readLine();
                 String[] parts = line.split(": ");
@@ -346,12 +359,12 @@ public class GameManager {
                 }
             }
             bufferedReader.readLine();
-            if(bufferedReader.readLine().equals("White")){
+            if (bufferedReader.readLine().equals("White")) {
                 turn = "Black";
-            }else {
+            } else {
                 turn = "White";
             }
-            while ((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null) {
                 String[] cellData = line.split(", ");
                 String piece = cellData[0];
                 String tcolor = cellData[1];
