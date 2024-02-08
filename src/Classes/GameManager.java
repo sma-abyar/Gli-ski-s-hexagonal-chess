@@ -67,6 +67,23 @@ public class GameManager {
                 ncell.setPiece(PieceName.BLACK_KNIGHT);
             }
         }
+        if (((ncell.getRow() == 6 && (ncell.getColumn() == 'a' || ncell.getColumn() == 'l')) ||
+                (ncell.getRow() == 7 && (ncell.getColumn() == 'b' || ncell.getColumn() == 'k')) ||
+                (ncell.getRow() == 8 && (ncell.getColumn() == 'c' || ncell.getColumn() == 'i')) ||
+                (ncell.getRow() == 9 && (ncell.getColumn() == 'd' || ncell.getColumn() == 'h')) ||
+                (ncell.getRow() == 10 && (ncell.getColumn() == 'e' || ncell.getColumn() == 'g')) ||
+                (ncell.getRow() == 11 && (ncell.getColumn() == 'f'))) && (Objects.equals(ncell.getPiece(), PieceName.WHITE_PAWN))) {
+            String newPiece = app.showPromotionPopup();
+            if (newPiece.equals("Queen")) {
+                ncell.setPiece(PieceName.WHITE_QUEEN);
+            } else if (newPiece.equals("Rook")) {
+                ncell.setPiece(PieceName.WHITE_ROCK);
+            } else if (newPiece.equals("Bishop")) {
+                ncell.setPiece(PieceName.WHITE_BISHOP);
+            } else if (newPiece.equals("Knight")) {
+                ncell.setPiece(PieceName.WHITE_KNIGHT);
+            }
+        }
         app.setCellProperties(ncell.getRow(), ncell.getColumn(), ncell.getPiece(), null, ncell.getTcolor());
         lBColor = null;
         ClearBackGrounds();
@@ -410,6 +427,19 @@ public class GameManager {
             if (cell.getPiece() != null) {
                 app.setCellProperties(cell.getRow(), cell.getColumn(), null, null, null);
             }
+        }
+    }
+
+    public void clearFile() {
+        try {
+            String outputFolderPath = "src/data/";
+            File outputFolder = new File(outputFolderPath);
+            outputFolder.mkdirs();
+            String outputFile = outputFolderPath + "cache.txt";
+            FileWriter fileWriter = new FileWriter(outputFile);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("");
+        } catch (Exception e) {
         }
     }
 }

@@ -33,6 +33,7 @@ public class Listener implements EventListener {
     public void onNewGame() {
         game.getApp().setRemovedPieces(new StringColor[]{});
         game.clearCells();
+        game.clearFile();
         game.arrangeNewBoard();
     }
 }
