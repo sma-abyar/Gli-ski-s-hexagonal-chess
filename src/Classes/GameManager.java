@@ -55,15 +55,15 @@ public class GameManager {
             setKingLoc(0, "" + ncell.getRow() + ncell.getColumn());
         }
         app.setCellProperties(lcell.getRow(), lcell.getColumn(), null, null, null);
-        if((ncell.getRow()==1) && (Objects.equals(ncell.getPiece(), PieceName.BLACK_PAWN))){
+        if ((ncell.getRow() == 1) && (Objects.equals(ncell.getPiece(), PieceName.BLACK_PAWN))) {
             String newPiece = app.showPromotionPopup();
-            if (newPiece.equals("Queen")){
+            if (newPiece.equals("Queen")) {
                 ncell.setPiece(PieceName.BLACK_QUEEN);
-            }else if (newPiece.equals("Rook")){
+            } else if (newPiece.equals("Rook")) {
                 ncell.setPiece(PieceName.BLACK_ROCK);
-            }else if (newPiece.equals("Bishop")){
+            } else if (newPiece.equals("Bishop")) {
                 ncell.setPiece(PieceName.BLACK_BISHOP);
-            }else if (newPiece.equals("Knight")){
+            } else if (newPiece.equals("Knight")) {
                 ncell.setPiece(PieceName.BLACK_KNIGHT);
             }
         }
