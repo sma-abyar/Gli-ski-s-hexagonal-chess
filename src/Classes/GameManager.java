@@ -10,36 +10,36 @@ import java.util.*;
 import java.util.List;
 
 public class GameManager {
-    public GameManager(Application app, PiecePack pack) {
-        this.app = app;
-        this.pack = pack;
-        setKingLoc(0, "1g");
-        setKingLoc(1, "10g");
-    }
-
+    public Application app;
+    public List<Character> col = new ArrayList<>();
     protected int row;
     protected char column;
-    public Application app;
     protected PiecePack pack;
-    private Cell sCell;
-    private Cell lcell;
-    private Cell[] removedCells = new Cell[0];
     protected Rules rules = new Rules();
     StringColor[] removed = new StringColor[0];
     int lastRemovedItem = 0;
     Map<String, Cell> bBoard = new HashMap<>();
     Map<String, Cell> whitePieces = new HashMap<>();
     Map<String, Cell> blackPieces = new HashMap<>();
-
     int lrow;
     char lcol;
     Color lBColor;
-
-    public List<Character> col = new ArrayList<>();
     char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'k', 'l'};
     String charnum = "abcdefghikl";
     String turn = "White";
+    boolean whiteCheck = false;
+    boolean blackCheck = false;
+    String[] kingLoc = new String[2];
+    private Cell sCell;
+    private Cell lcell;
+    private Cell[] removedCells = new Cell[0];
 
+    public GameManager(Application app, PiecePack pack) {
+        this.app = app;
+        this.pack = pack;
+        setKingLoc(0, "1g");
+        setKingLoc(1, "10g");
+    }
 
     private void Move(Cell lcell, Cell ncell) {
         ncell.setPiece(lcell.getPiece());
@@ -212,9 +212,6 @@ public class GameManager {
         blackCheck();
     }
 
-    boolean whiteCheck = false;
-    boolean blackCheck = false;
-
     private void changeCheckColor() {
         if (whiteCheck) {
             app.changeBackGround(bBoard.get(kingLoc[0]).getRow(), bBoard.get(kingLoc[0]).getColumn(), Color.YELLOW);
@@ -287,8 +284,6 @@ public class GameManager {
     public Map<String, Cell> getbBoard() {
         return bBoard;
     }
-
-    String[] kingLoc = new String[2];
 
     public void setKingLoc(int i, String location) {
         this.kingLoc[i] = location;
