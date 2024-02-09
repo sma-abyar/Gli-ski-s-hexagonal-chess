@@ -15,12 +15,10 @@ Hexagonal Chess is a web-based game that allows you to play chess on a board wit
 
 To install Hexagonal Chess, you need to have Java installed on your machine. Then, follow these steps:
 
-1. Clone this repository: `git clone https://github.com/your-username/hexagonal-chess.git`
-2. Go to the project directory: `cd hexagonal-chess`
-3. Compile the source code: `javac com/example/helloworld/HelloWorld.java`
-4. Create a jar file: `jar cvfe HexagonalChess.jar com.example.helloworld.HelloWorld com/example/helloworld/HelloWorld.class`
-5. Run the jar file: `java -jar HexagonalChess.jar`
-
+1. Clone this repository: `git clone https://github.com/sma-abyar/Glinskis-hexagonal-chess.git)`
+2. Go to the project directory: `cd src`
+3. Open te project in an ide looklike vscode or Intellij Idea and run `Main.java`
+4. You can use another way to compile and run Main.java file.
 
 ## Rules
 
