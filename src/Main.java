@@ -9,7 +9,6 @@ public class Main {
         PiecePack pack = new PiecePack();
         Application application = new Application();
         GameManager game = new GameManager(application, pack);
-//        game.arrangeBoardByFile();
         game.arrangeBoard();
         application.registerEventListener(new SystemOutEventListener());
         application.registerEventListener(new Listener(game));

@@ -3,6 +3,12 @@ package Classes;
 import java.awt.*;
 
 public class Cell {
+    private Color bcolor;
+    private String piece;
+    private Color tcolor;
+    private int row;
+    private char column;
+    private int round;
     public Cell(Color bcolor, String piece, Color tcolor, int row, char column, int round) {
         this.bcolor = bcolor;
         this.piece = piece;
@@ -12,23 +18,29 @@ public class Cell {
         setRound(round);
 
     }
-    private Color bcolor;
-    private String piece;
-    private Color tcolor;
-    private int row;
-    private char column;
-    private int round;
 
     public Color getBcolor() {
         return bcolor;
+    }
+
+    public void setBcolor(Color bcolor) {
+        this.bcolor = bcolor;
     }
 
     public String getPiece() {
         return piece;
     }
 
+    public void setPiece(String piece) {
+        this.piece = piece;
+    }
+
     public Color getTcolor() {
         return tcolor;
+    }
+
+    public void setTcolor(Color tcolor) {
+        this.tcolor = tcolor;
     }
 
     public int getRow() {
@@ -39,18 +51,6 @@ public class Cell {
         return column;
     }
 
-    public void setBcolor(Color bcolor) {
-        this.bcolor = bcolor;
-    }
-
-    public void setPiece(String piece) {
-        this.piece = piece;
-    }
-
-    public void setTcolor(Color tcolor) {
-        this.tcolor = tcolor;
-    }
-
     public int getRound() {
         return round;
     }
@@ -58,8 +58,9 @@ public class Cell {
     public void setRound(int round) {
         this.round = round;
     }
-    public String getKey(){
-        return ""+row+column;
+
+    public String getKey() {
+        return "" + row + column;
     }
 
 }

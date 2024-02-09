@@ -30,9 +30,9 @@ public class GameManager {
     boolean whiteCheck = false;
     boolean blackCheck = false;
     String[] kingLoc = new String[2];
+    Cell[] removedCells = new Cell[0];
     private Cell sCell;
     private Cell lcell;
-    Cell[] removedCells = new Cell[0];
 
     public GameManager(Application app, PiecePack pack) {
         this.app = app;
@@ -440,7 +440,8 @@ public class GameManager {
         } catch (Exception e) {
         }
     }
-    public void resetGame(){
+
+    public void resetGame() {
         turn = "White";
         removedCells = new Cell[0];
         removed = new StringColor[0];

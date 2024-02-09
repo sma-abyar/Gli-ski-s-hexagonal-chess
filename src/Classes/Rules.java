@@ -22,6 +22,8 @@ public class Rules {
     int round;
     Map<String, Cell> board;
     Map<String, Cell> knightTarget = new HashMap<>();
+    String[] kingMove;
+    int lastKingMove;
 
     public void Movement(GameManager board, Cell cell) {
         this.sCell = cell;
@@ -204,8 +206,7 @@ public class Rules {
         direct_movement(false);
         oblique_movement(false);
     }
-    String[] kingMove;
-    int lastKingMove;
+
     private void King() {
         kingMove = new String[12];
         lastKingMove = 0;
@@ -350,7 +351,7 @@ public class Rules {
             Cell newCell = board.get("" + newRow + chars[newColumn]);
             if (newCell.getPiece() != null || limited) {
                 kingMove[lastKingMove] = "" + newRow + chars[newColumn];
-                lastKingMove ++;
+                lastKingMove++;
                 return;
             }
             recursive_oblique_movement(newCell, cell_change_rate, limited);
@@ -373,10 +374,12 @@ public class Rules {
         } catch (Exception e) {
         }
     }
-    public String[] getKingMove(){
+
+    public String[] getKingMove() {
         return kingMove;
     }
-    public int getLastKingMove(){
+
+    public int getLastKingMove() {
         return lastKingMove;
     }
 }
