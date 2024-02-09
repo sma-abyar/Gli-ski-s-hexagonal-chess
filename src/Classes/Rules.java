@@ -41,7 +41,7 @@ public class Rules {
         } else if (name.equals(BLACK_PAWN)) {
             blackPawn();
         } else if (name.equals(PieceName.WHITE_ROCK) || name.equals(PieceName.BLACK_ROCK)) {
-            Rock();
+            rook();
         } else if (name.equals(PieceName.BLACK_BISHOP) || name.equals(PieceName.WHITE_BISHOP)) {
             Bishop();
         } else if (name.equals(PieceName.BLACK_QUEEN) || name.equals(PieceName.WHITE_QUEEN)) {
@@ -53,7 +53,7 @@ public class Rules {
         }
     }
 
-    private void Rock() {
+    private void rook() {
         direct_movement(false);
     }
 
