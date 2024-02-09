@@ -32,7 +32,7 @@ public class GameManager {
     String[] kingLoc = new String[2];
     private Cell sCell;
     private Cell lcell;
-    private Cell[] removedCells = new Cell[0];
+    Cell[] removedCells = new Cell[0];
 
     public GameManager(Application app, PiecePack pack) {
         this.app = app;
@@ -215,8 +215,10 @@ public class GameManager {
     private void changeCheckColor() {
         if (whiteCheck) {
             app.changeBackGround(bBoard.get(kingLoc[0]).getRow(), bBoard.get(kingLoc[0]).getColumn(), Color.YELLOW);
+            System.out.println(rules.getLastKingMove());
         } else if (blackCheck) {
             app.changeBackGround(bBoard.get(kingLoc[1]).getRow(), bBoard.get(kingLoc[1]).getColumn(), Color.YELLOW);
+            System.out.println(rules.getLastKingMove());
         }
     }
 
@@ -423,6 +425,7 @@ public class GameManager {
                 app.setCellProperties(cell.getRow(), cell.getColumn(), null, null, null);
             }
         }
+        ClearBackGrounds();
     }
 
     public void clearFile() {
@@ -436,6 +439,18 @@ public class GameManager {
             bufferedWriter.write("");
         } catch (Exception e) {
         }
+    }
+    public void resetGame(){
+        turn = "White";
+        removedCells = new Cell[0];
+        removed = new StringColor[0];
+        lastRemovedItem = 0;
+        whitePieces.clear();
+        blackPieces.clear();
+        app.setRemovedPieces(new StringColor[]{});
+        clearCells();
+        clearFile();
+        arrangeBoard();
     }
 }
 

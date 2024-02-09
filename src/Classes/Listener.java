@@ -31,9 +31,6 @@ public class Listener implements EventListener {
 
     @Override
     public void onNewGame() {
-        game.getApp().setRemovedPieces(new StringColor[]{});
-        game.clearCells();
-        game.clearFile();
-        game.arrangeNewBoard();
+        game.resetGame();
     }
 }

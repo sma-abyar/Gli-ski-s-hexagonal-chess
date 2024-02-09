@@ -2,8 +2,6 @@ package Classes;
 
 import ir.sharif.math.bp02_1.hex_chess.graphics.Application;
 import ir.sharif.math.bp02_1.hex_chess.util.PieceName;
-import Classes.Cell;
-import Classes.GameManager;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -22,8 +20,6 @@ public class Rules {
     char col;
     int charn;
     int round;
-    int[][] rcolored;
-    int[][] ccolored;
     Map<String, Cell> board;
     Map<String, Cell> knightTarget = new HashMap<>();
 
@@ -208,8 +204,11 @@ public class Rules {
         direct_movement(false);
         oblique_movement(false);
     }
-
+    String[] kingMove;
+    int lastKingMove;
     private void King() {
+        kingMove = new String[12];
+        lastKingMove = 0;
         oblique_movement(true);
         direct_movement(true);
     }
@@ -265,14 +264,11 @@ public class Rules {
         int[][] changes_rate_array;
 
         if (column > 5) {
-            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1},
-                    {-1, 0}, {-1, 1}};
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, 0}, {-1, 1}};
         } else if (column == 5) {
-            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1},
-                    {-1, -1}, {-1, 0}};
+            changes_rate_array = new int[][]{{0, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
         } else {
-            changes_rate_array = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {
-                    -1, -1}, {-1, 0}};
+            changes_rate_array = new int[][]{{0, 1}, {1, 1}, {1, 0}, {0, -1}, {-1, -1}, {-1, 0}};
         }
 
         for (int[] cell_change_rate : changes_rate_array) {
@@ -314,6 +310,8 @@ public class Rules {
             changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
             Cell newCell = board.get("" + newRow + chars[newColumn]);
             if (newCell.getPiece() != null || limited) {
+                kingMove[lastKingMove] = "" + newRow + chars[newColumn];
+                lastKingMove++;
                 return;
             }
 
@@ -351,6 +349,8 @@ public class Rules {
             changeBackGroundColor(newRow, chars[newColumn], Color.lightGray);
             Cell newCell = board.get("" + newRow + chars[newColumn]);
             if (newCell.getPiece() != null || limited) {
+                kingMove[lastKingMove] = "" + newRow + chars[newColumn];
+                lastKingMove ++;
                 return;
             }
             recursive_oblique_movement(newCell, cell_change_rate, limited);
@@ -365,13 +365,18 @@ public class Rules {
             if (sCell.getTcolor() != cell.getTcolor()) {
                 cell.setBcolor(color);
                 app.changeBackGround(row, col, color);
-                if (cell.getPiece() != null && (!Objects.equals(sCell.getPiece(), BLACK_PAWN)
-                        && !Objects.equals(sCell.getPiece(), WHITE_PAWN))) {
+                if (cell.getPiece() != null && (!Objects.equals(sCell.getPiece(), BLACK_PAWN) && !Objects.equals(sCell.getPiece(), WHITE_PAWN))) {
                     cell.setBcolor(Color.DARK_GRAY);
                     app.changeBackGround(row, col, Color.DARK_GRAY);
                 }
             }
         } catch (Exception e) {
         }
+    }
+    public String[] getKingMove(){
+        return kingMove;
+    }
+    public int getLastKingMove(){
+        return lastKingMove;
     }
 }
